@@ -4,20 +4,39 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <h1>DMScreen</h1>
+      </div>
+      <div className="mainArea">
+        <div className="tableArea">
+          <table className="dmbasictable">
+            <tr>
+              <th>One</th>
+              <th>Two</th>
+              <th>Three</th>
+            </tr>
+            <tr>
+              <td>blah</td>
+              <td>blah</td>
+              <td>blah</td>
+            </tr>
+            <tr>
+              <td>blah</td>
+              <td>blah</td>
+              <td>blah</td>
+            </tr>
+            <tr>
+              <td>blah</td>
+              <td>blah</td>
+              <td>blah</td>
+            </tr>
+          </table>
+        </div>
+        <iframe src="https://improvedinitiative.app/" title="improved initiative"></iframe>
+        <div className="tableArea">
+
+        </div>
+      </div>
     </div>
   );
 }

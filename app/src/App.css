@@ -28,6 +28,44 @@
   color: #61dafb;
 }
 
+.dmbasictable {
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.dmbasictable tr {
+  border-radius: 1px;
+}
+
+.dmbasictable td {
+  border-radius: 1px;
+}
+
+.dmbasictable tr:nth-child(even) {
+  background-color: rgb(199, 194, 194);
+}
+
+
+iframe {
+  width:100%;
+  height: 90vh;
+  resize: both;
+  overflow: auto;
+}
+
+.tableArea {
+  background-color: rgb(197, 197, 218);
+  min-width: 20%;
+  height: auto;
+  padding: 5px;
+}
+
+.mainArea {
+  display: flex;
+  flex-direction: row;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
