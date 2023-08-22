@@ -1,42 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom"
+import Login from "./pages/Login"
+import Screen from "./pages/Screen"
 
 function App() {
   return (
     <div className="App">
-      <div>
-        <h1>DMScreen</h1>
-      </div>
-      <div className="mainArea">
-        <div className="tableArea">
-          <table className="dmbasictable">
-            <tr>
-              <th>One</th>
-              <th>Two</th>
-              <th>Three</th>
-            </tr>
-            <tr>
-              <td>blah</td>
-              <td>blah</td>
-              <td>blah</td>
-            </tr>
-            <tr>
-              <td>blah</td>
-              <td>blah</td>
-              <td>blah</td>
-            </tr>
-            <tr>
-              <td>blah</td>
-              <td>blah</td>
-              <td>blah</td>
-            </tr>
-          </table>
-        </div>
-        <iframe src="https://improvedinitiative.app/" title="improved initiative"></iframe>
-        <div className="tableArea">
-
-        </div>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login/>}/>
+          <Route path="/screen" element={<Screen/>}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

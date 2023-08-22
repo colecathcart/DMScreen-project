@@ -28,18 +28,60 @@
   color: #61dafb;
 }
 
+.header {
+  display: flex;
+}
+
+.header h1 {
+  padding-left: 5px;
+}
+
+.header button {
+  margin-left: auto;
+  margin-right: 5px;
+  height: fit-content;
+  padding: 10px;
+  align-self: center;
+  border: 0px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
 .dmbasictable {
   background-color: white;
+  border-radius: 0px 0px 5px 5px;
+  margin: 0px;
+}
+
+.tableContainer {
+  background-color: rgb(223, 203, 203);
   border-radius: 5px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.tableContainer button {
+  display: block;
+  margin-left: auto;
+  margin-right: 0px;
+  border: 0px;
+  border-radius: 5px 5px 0px 0px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.tableHeader {
+  display: flex;
+}
+
+.tableContainer h4 {
+  margin: 0px;
   padding: 5px;
 }
 
-.dmbasictable tr {
+.dmbasictable tr, td, th {
   border-radius: 1px;
-}
-
-.dmbasictable td {
-  border-radius: 1px;
+  padding: 10px;
 }
 
 .dmbasictable tr:nth-child(even) {
@@ -59,6 +101,21 @@ iframe {
   min-width: 20%;
   height: auto;
   padding: 5px;
+}
+
+.collapser {
+  background-color: rgb(197, 197, 218);
+  height: 100vh;
+  display: flex;
+}
+
+.collapser button {
+  align-self: center;
+  border: 0px;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
 }
 
 .mainArea {
