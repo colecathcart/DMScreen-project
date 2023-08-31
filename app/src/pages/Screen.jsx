@@ -14,6 +14,13 @@ const Screen = () => {
 		navigate("/")
 	}
 
+	const data = {
+		title : "Testable"
+	};
+	console.log(data)
+
+
+
 	return (
 		<div className="App">
 			<div className="header">
@@ -22,7 +29,7 @@ const Screen = () => {
 			</div>
 			<div className="mainArea">
 				{show1 ? <div className="tableArea">
-					<DMTable/>
+					<DMTable tableData = {data}/>
 				</div> : null}
 				<div className="collapser">
 					<button onClick={() => setShow1(show1 => !show1)}>{show1 ? <b>&lt;</b> : <b>&gt;</b>}</button>
