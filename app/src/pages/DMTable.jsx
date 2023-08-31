@@ -1,34 +1,45 @@
 import React, {useState} from "react"
 
 const DMTable = () => {
+
+	const [vis, setVis] = useState(true)
+
+	const removeMe = () => {
+		setVis((prev) => !prev)
+	}
+
 	return (
-		<div className="tableContainer">
-			<div className="tableHeader">
-				<h4>Tname</h4>
-				<button>X</button>
-			</div>
-			<table className="dmbasictable">
-				<tr>
-					<th>One</th>
-					<th>Two</th>
-					<th>Three</th>
-				</tr>
-				<tr>
-					<td>blah</td>
-					<td>blah</td>
-					<td>blah</td>
-				</tr>
-				<tr>
-					<td>blah</td>
-					<td>blah</td>
-					<td>blah</td>
-				</tr>
-				<tr>
-					<td>blah</td>
-					<td>blah</td>
-					<td>blah</td>
-				</tr>
-			</table>
+		<div>
+			{vis ? ( 
+				<div className="tableContainer">
+					<div className="tableHeader">
+						<h4>Tname</h4>
+						<button onClick={removeMe}>X</button>
+					</div>
+					<table className="dmbasictable">
+						<tr>
+							<th>One</th>
+							<th>Two</th>
+							<th>Three</th>
+						</tr>
+						<tr>
+							<td>blah</td>
+							<td>blah</td>
+							<td>blah</td>
+						</tr>
+						<tr>
+							<td>blah</td>
+							<td>blah</td>
+							<td>blah</td>
+						</tr>
+						<tr>
+							<td>blah</td>
+							<td>blah</td>
+							<td>blah</td>
+						</tr>
+					</table>
+				</div>) 
+			: null}
 		</div>
 	)
 }

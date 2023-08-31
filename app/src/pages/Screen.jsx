@@ -29,7 +29,7 @@ const Screen = () => {
 				</div>
 				<iframe src="https://improvedinitiative.app/" title="improved initiative"></iframe>
 				<div className="collapser">
-					<button onClick={() => setShow2(show2 => !show2)}>{show2 ? <b>&gt;</b> : <b>&lt;</b>}</button>
+					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <b>&gt;</b> : <b>&lt;</b>}</button>
 				</div>
 				{show2 ? <div className="tableArea">
 					
