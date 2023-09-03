@@ -25,15 +25,8 @@ const Screen = () => {
 	return (
 		<div className="App">
 			<div className="header">
-				<div>
-					<h1>DMScreen</h1>
-				</div>
-				<div>
-					
-				</div>
-				<div>
-					<button onClick={handleNavigate}>Logout</button>
-				</div>
+				<h1>DMScreen</h1>
+				<button onClick={handleNavigate}>Logout</button>
 			</div>
 			<div className="mainArea">
 				{show1 ? 
@@ -49,7 +42,13 @@ const Screen = () => {
 				<div className="collapser">
 					<button onClick={() => setShow1(show1 => !show1)}>{show1 ? <b>&lt;</b> : <b>&gt;</b>}</button>
 				</div>
-				<iframe src="https://improvedinitiative.app/" title="improved initiative"></iframe>
+				<div className="iframediv">
+					<div className="tabbar">
+						<button>test</button>
+						<button>test2</button>
+					</div>
+					<iframe src="https://improvedinitiative.app/" title="improved initiative"></iframe>
+				</div>
 				<div className="collapser">
 					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <b>&gt;</b> : <b>&lt;</b>}</button>
 				</div>
