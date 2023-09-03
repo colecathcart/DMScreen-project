@@ -15,7 +15,8 @@ const Screen = () => {
 	}
 
 	const data = {
-		title : "Testable"
+		title : "Testable",
+		roll : "TRUE",
 	};
 	console.log(data)
 
@@ -24,13 +25,27 @@ const Screen = () => {
 	return (
 		<div className="App">
 			<div className="header">
-				<h1>DMScreen</h1>
-				<button onClick={handleNavigate}>Logout</button>
+				<div>
+					<h1>DMScreen</h1>
+				</div>
+				<div>
+					
+				</div>
+				<div>
+					<button onClick={handleNavigate}>Logout</button>
+				</div>
 			</div>
 			<div className="mainArea">
-				{show1 ? <div className="tableArea">
-					<DMTable tableData = {data}/>
-				</div> : null}
+				{show1 ? 
+					show2 ? 
+						<div className="tableArea">
+							<DMTable tableData = {data}/>
+						</div>
+					:
+						<div className="bigtableArea">
+							<DMTable tableData = {data}/>
+						</div>
+				: null}
 				<div className="collapser">
 					<button onClick={() => setShow1(show1 => !show1)}>{show1 ? <b>&lt;</b> : <b>&gt;</b>}</button>
 				</div>
@@ -38,9 +53,16 @@ const Screen = () => {
 				<div className="collapser">
 					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <b>&gt;</b> : <b>&lt;</b>}</button>
 				</div>
-				{show2 ? <div className="tableArea">
-					
-				</div> : null}
+				{show2 ? 
+					show1 ?
+						<div className="tableArea">
+							<DMTable tableData = {data}/>
+						</div> 
+					:
+						<div className="bigtableArea">
+							<DMTable tableData = {data}/>
+						</div>
+				: null}
 			</div>
     	</div>
 	)

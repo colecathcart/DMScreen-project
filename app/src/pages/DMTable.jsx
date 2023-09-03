@@ -1,18 +1,27 @@
 import React, {useState} from "react"
 
-const DMTable = (tableData) => {
+const DMTable = (tableInfo) => {
 
 	const [vis, setVis] = useState(true)
 
 	const removeMe = () => {
 		setVis((prev) => !prev)
 	}
+
+	function isRoll(roll){
+		if(roll === "TRUE"){
+			return true
+		} else {
+			return false
+		}
+	}
+
 	return (
 		<div>
 			{vis ? ( 
 				<div className="tableContainer">
 					<div className="tableHeader">
-						<h4>{tableData.tableData.title}</h4>
+						<h4>{tableInfo.tableData.title}</h4>
 						<button onClick={removeMe}>X</button>
 					</div>
 					<table className="dmbasictable">
@@ -20,7 +29,7 @@ const DMTable = (tableData) => {
 							<tr>
 								<th>One</th>
 								<th>Two</th>
-								<th>Three</th>
+								<th>d100 {isRoll(tableInfo.tableData.roll) ? <button>roll</button> : null}</th>
 							</tr>
 							<tr>
 								<td>blah</td>
