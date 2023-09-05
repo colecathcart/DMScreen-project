@@ -17,6 +17,12 @@ const Screen = () => {
 	const data = {
 		title : "Testable",
 		roll : "TRUE",
+		headers : ["d10","One","Two"],
+		rows : [
+			[[1,5], "r1c2", "The quick brown fox jumps over the lazy dog"],
+			[[6,9], "r2c2", "Once upon a time in a land far far away"],
+			[[10], "r3c2", "Rocks fall. Each party member takes 100d10 damage"]
+		]
 	};
 	console.log(data)
 

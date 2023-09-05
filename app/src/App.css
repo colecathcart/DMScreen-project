@@ -90,6 +90,9 @@
   background-color: rgb(199, 194, 194);
 }
 
+.rolledrow {
+  border: 2px solid black;
+}
 
 iframe {
   width: 100%;
