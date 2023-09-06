@@ -81,17 +81,26 @@
   padding: 5px;
 }
 
+.dmbasictable {
+  border-spacing: 2px 5px;
+}
+
 .dmbasictable tr, td, th {
   border-radius: 1px;
   padding: 10px;
 }
 
-.dmbasictable tr:nth-child(even) {
+.dmbasictable tr:nth-child(even) td{
   background-color: rgb(199, 194, 194);
 }
 
+.dmbasictable tr:nth-child(odd) td{
+  background-color: rgb(231, 224, 224);
+}
+
 .rolledrow {
-  border: 2px solid black;
+  box-shadow: 0px 0px 0px 3px rgb(0,0,0);
+  font-weight: 500;
 }
 
 iframe {

@@ -3,6 +3,7 @@ import React, {useState} from "react"
 const DMTable = (tI) => {
 
 	const [vis, setVis] = useState(true)
+	const [rolling, setRolling] = useState(false)
 	const [rollres, setRollres] = useState(-1)
 
 	const removeMe = () => {
@@ -19,12 +20,18 @@ const DMTable = (tI) => {
 
 	function numWasRolled(range){
 		if(range.length > 1){
+			console.log("Here")
+			console.log(range[0],range[1])
 			if(range[0] <= rollres && range[1] >= rollres){
+				console.log("In range")
 				return true
 			}
 			return false
 		} else {
-			if (range === rollres){
+			console.log("there")
+			console.log(range[0])
+			if (range[0] === rollres){
+				console.log("Equals")
 				return true
 			}
 			return false
@@ -32,13 +39,18 @@ const DMTable = (tI) => {
 	}
 
 	const roll = () =>{
-		setRollres(7)
+		setRolling(true)
+		let min = tI.tableData.rows[0][0][0]
+		//console.log(min)
+		let max = tI.tableData.rows[tI.tableData.rows.length - 1][0][tI.tableData.rows[tI.tableData.rows.length -1][0].length - 1] + 1
+		//console.log(max)
+		setRollres(Math.floor(Math.random() * (max - min)) + min)
 	}
 
 	const headers = []
 	for (let i = 0; i < tI.tableData.headers.length; i++){
 		if(i === 0){
-			headers.push(<th>{tI.tableData.headers[i]}{isRoll(tI.tableData.roll) ? <button onClick={roll}>roll</button> : null}</th>)
+			headers.push(<th>{isRoll(tI.tableData.roll) ? <button onClick={roll}><b>{tI.tableData.headers[i]}: </b>{rolling ? rollres : null}</button> : tI.tableData.headers[i]}</th>)
 		} else {
 			headers.push(<th>{tI.tableData.headers[i]}</th>)
 		}
@@ -55,6 +67,7 @@ const DMTable = (tI) => {
 			}
 		}
 		if(isRoll(tI.tableData.roll)){
+
 			rows.push(<tr className={numWasRolled(tI.tableData.rows[i][0]) ? "rolledrow" : "tablerow"}>{row}</tr>)
 		} else {
 			rows.push(<tr className="tablerow">{row}</tr>)
