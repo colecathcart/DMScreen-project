@@ -10,7 +10,7 @@ const Screen = () => {
 	const [getspell, setGetSpell] = useState([])
 
 	useEffect(() => {
-		fetch(`spell/${"acid-arrow"}`)
+		fetch(`spell/${"invisibility"}`)
 			.then((results)=> {
 				return results.json();
 			})

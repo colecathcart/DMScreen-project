@@ -1,4 +1,4 @@
-namespace reactnet
+namespace reactnet.Models
 {
 	public class Spell
 	{

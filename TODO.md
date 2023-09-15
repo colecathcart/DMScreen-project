@@ -1,0 +1,16 @@
+# Features
+- Api calls: Spell/Item data should be retrieved from API call to the dnd 5e API
+	- 'Spell' model will need to be updated
+	- 'Item', 'Rule' models to be created
+- Navbar/search bar to add new spells/items/rules to the page
+	- Reorganize 'Screen.jsx' to keep state variable lists of current tables/spells, etc on the page
+	- Add ability for user input to add new spell/item/rule etc to the page, retrieved by controller from API
+	- Add form to allow use to create new table, store in database through new controller
+	- Add search/nav bar to retrieve existing tables from MongoDB database (handled by new controller)
+- Tabs/iframes
+	- Add ability for user to switch iframe by clicking different tabs
+	- Add form for user to create new tab by specifying url
+	- Store this in Db also?
+- Maybe
+	- Add logic to detect tables within spells/items/rules, to allow rolling on these as well
+	- Add login/account handling to support 
