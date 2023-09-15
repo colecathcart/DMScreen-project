@@ -1,0 +1,8 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:44447",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "/home/bob/Desktop/vscode/DMScreen/DMScreen-project/ClientApp/",
+"MaxTimeoutInSeconds": "120"
+}
+}

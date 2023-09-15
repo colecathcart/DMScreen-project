@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "9x9zLWiMyZIN2/+TtmiwlmZeQhJwk7x2jwH1Bipbc7h7c5/qe7Y1Sv1FpQPWgr1Pbuhs43zUP94yp3WMvDbT+Q==",
+  "success": true,
+  "projectFilePath": "/home/bob/Desktop/vscode/DMScreen/DMScreen-project/reactnet.csproj",
+  "expectedPackageFiles": [
+    "/home/bob/.nuget/packages/microsoft.aspnetcore.spaproxy/6.0.16/microsoft.aspnetcore.spaproxy.6.0.16.nupkg.sha512"
+  ],
+  "logs": []
+}
