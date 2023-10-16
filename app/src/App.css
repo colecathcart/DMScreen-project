@@ -59,7 +59,9 @@
   background-color: rgb(223, 203, 203);
   border-radius: 5px;
   width: fit-content;
+  max-width: 900px;
   height: fit-content;
+  margin-bottom: 10px;
 }
 
 .tableContainer button {
@@ -103,6 +105,20 @@
   font-weight: 500;
 }
 
+.spellinfo {
+	display: flex;
+	flex-flow: column wrap;
+	align-content: flex-start;
+	text-align: left;
+	padding: 3px;
+	background-color: white;
+	border-radius: 0px 0px 5px 5px;
+}
+
+.spellinfo p {
+  margin: 5px;
+}
+
 iframe {
   width: 100%;
   resize: both;
@@ -118,7 +134,8 @@ iframe {
 .tableArea {
   background-color: rgb(197, 197, 218);
   min-width: 20%;
-  height: auto;
+  height: 94vh;
+  overflow-y: auto;
   padding: 5px;
 }
 

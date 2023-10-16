@@ -1,11 +1,14 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {useNavigate} from "react-router-dom"
 import DMTable from "./DMTable"
+import DMSpell from "./DMSpell"
+import axios from 'axios'
 
 const Screen = () => {
 
 	const [show1, setShow1] = useState(true)
 	const [show2, setShow2] = useState(true)
+	const [testdata, setTestdata] = useState()
 
 	const navigate = useNavigate()
 
@@ -23,10 +26,22 @@ const Screen = () => {
 			[[6,9], "r2c2", "Once upon a time in a land far far away"],
 			[[10], "r3c2", "Rocks fall. Each party member takes 100d10 damage"]
 		]
-	};
+	}
 	console.log(data)
 
+	useEffect(()=>{
+        const FetchAllItems = async ()=>{
+            try {
+                const res = await axios.get("http://localhost:4000/screen?name=spells/acid-arrow")
+                setTestdata(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        FetchAllItems()
+    },[])
 
+	console.log(testdata)
 
 	return (
 		<div className="App">
@@ -39,10 +54,14 @@ const Screen = () => {
 					show2 ? 
 						<div className="tableArea">
 							<DMTable tableData = {data}/>
+							<DMSpell info = {testdata}/>
+							<DMSpell info = {testdata}/>
+							<DMSpell info = {testdata}/>
 						</div>
 					:
 						<div className="bigtableArea">
 							<DMTable tableData = {data}/>
+							<DMSpell info = {testdata}/>
 						</div>
 				: null}
 				<div className="collapser">

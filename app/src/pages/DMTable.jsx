@@ -20,18 +20,18 @@ const DMTable = (tI) => {
 
 	function numWasRolled(range){
 		if(range.length > 1){
-			console.log("Here")
-			console.log(range[0],range[1])
+			//console.log("Here")
+			//console.log(range[0],range[1])
 			if(range[0] <= rollres && range[1] >= rollres){
-				console.log("In range")
+				//console.log("In range")
 				return true
 			}
 			return false
 		} else {
-			console.log("there")
-			console.log(range[0])
+			//console.log("there")
+			//console.log(range[0])
 			if (range[0] === rollres){
-				console.log("Equals")
+				//console.log("Equals")
 				return true
 			}
 			return false
