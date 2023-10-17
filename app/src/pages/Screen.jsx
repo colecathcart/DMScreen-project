@@ -9,7 +9,8 @@ const Screen = () => {
 
 	const [show1, setShow1] = useState(true)
 	const [show2, setShow2] = useState(true)
-	const [testdata, setTestdata] = useState()
+	const [rulesleft, setRulesleft] = useState([])
+	const [rulesright, setRulesright] = useState([])
 
 	const navigate = useNavigate()
 
@@ -30,20 +31,6 @@ const Screen = () => {
 	}
 	console.log(data)
 
-	useEffect(()=>{
-        const FetchAllSpells = async ()=>{
-            try {
-                const res = await axios.get("http://localhost:4000/screen?name=spells")
-                setTestdata(res.data)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        FetchAllSpells()
-    },[])
-
-	console.log(testdata)
-
 	return (
 		<div className="App">
 			<div className="header">
@@ -53,8 +40,12 @@ const Screen = () => {
 			<div className="mainArea">
 				{show1 ? 
 					<div className={show2 ? "tableArea" : "bigtableArea"}>
-						<Searchbar/>
+						<Searchbar setRules={setRulesleft}/>
 						<DMTable tableData = {data}/>
+						{rulesleft.map((rule, id) => {
+							console.log(rule)
+							return <DMSpell spell={rule}/>
+						})}
 					</div>
 				: null}
 				<div className="collapser">
@@ -72,7 +63,11 @@ const Screen = () => {
 				</div>
 				{show2 ? 
 					<div className={show1 ? "tableArea" : "bigtableArea"}>
+						<Searchbar setRules={setRulesright}/>
 						<DMTable tableData = {data}/>
+						{rulesright.map((rule, id) => {
+							return <DMSpell spell={rule}/>
+						})}
 					</div> 
 				: null}
 			</div>

@@ -20,8 +20,8 @@ app.get("/screen",(request, response)=>{
 })
 
 app.get("/search",(request, response)=>{
-	const name = request.query.name
-	axios.get("https://www.dnd5eapi.co/api/"+name)
+	const url = request.query.url
+	axios.get("https://www.dnd5eapi.co"+url)
 	.then((res)=>{
 		console.log(res.data)
 		return response.json(res.data)

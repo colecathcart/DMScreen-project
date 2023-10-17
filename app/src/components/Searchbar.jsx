@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {FaSearch} from "react-icons/fa"
 import axios from 'axios'
-const Searchbar = (stuff) => {
+const Searchbar = ({setRules}) => {
 
 	const [input, setInput] = useState("")
 	const [spells, setSpells] = useState()
@@ -10,7 +10,7 @@ const Searchbar = (stuff) => {
 	useEffect(()=>{
         const FetchAllSpells = async ()=>{
             try {
-                const res = await axios.get("http://localhost:4000/search?name=spells")
+                const res = await axios.get("http://localhost:4000/search?url=/api/spells")
                 setSpells(res.data.results)
             } catch (error) {
                 console.log(error)
@@ -28,16 +28,27 @@ const Searchbar = (stuff) => {
 		console.log(results)
 	}
 
+	const handleRuleAdd = async (rule) => {
+		try {
+			const res = await axios.get("http://localhost:4000/search?url="+rule.url)
+			//console.log(res.data)
+			setRules(prevRules => [...prevRules, res.data])
+		} catch (error) {
+			console.log(error)
+		}
+		//setRules(prevRules => [...prevRules, rule])
+	}
+
 	return (
 		<div>
 			<div className="searchbar">
 				<FaSearch/>
-				<input placeholder="search the 5e ruleset" value={input} onChange={e => handleSearch(e.target.value)}/>
+				<input placeholder="add a new item" value={input} onChange={e => handleSearch(e.target.value)}/>
 			</div>
 			<table className="searchresults">
 				<tbody>
 					{results.map((result, id) => {
-						return <tr className="searchresult"><button key={id}>{result.name}</button></tr>
+						return <tr className="searchresult"><button key={id} onClick={() => handleRuleAdd(result)}>{result.name}</button></tr>
 					})}
 				</tbody>
 			</table>
