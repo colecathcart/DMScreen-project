@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react"
 import {useNavigate} from "react-router-dom"
-import DMTable from "./DMTable"
-import DMSpell from "./DMSpell"
+import DMTable from "../components/DMTable"
+import DMSpell from "../components/DMSpell"
+import Searchbar from "../components/Searchbar"
 import axios from 'axios'
 
 const Screen = () => {
@@ -30,15 +31,15 @@ const Screen = () => {
 	console.log(data)
 
 	useEffect(()=>{
-        const FetchAllItems = async ()=>{
+        const FetchAllSpells = async ()=>{
             try {
-                const res = await axios.get("http://localhost:4000/screen?name=spells/acid-arrow")
+                const res = await axios.get("http://localhost:4000/screen?name=spells")
                 setTestdata(res.data)
             } catch (error) {
                 console.log(error)
             }
         }
-        FetchAllItems()
+        FetchAllSpells()
     },[])
 
 	console.log(testdata)
@@ -51,18 +52,10 @@ const Screen = () => {
 			</div>
 			<div className="mainArea">
 				{show1 ? 
-					show2 ? 
-						<div className="tableArea">
-							<DMTable tableData = {data}/>
-							<DMSpell info = {testdata}/>
-							<DMSpell info = {testdata}/>
-							<DMSpell info = {testdata}/>
-						</div>
-					:
-						<div className="bigtableArea">
-							<DMTable tableData = {data}/>
-							<DMSpell info = {testdata}/>
-						</div>
+					<div className={show2 ? "tableArea" : "bigtableArea"}>
+						<Searchbar/>
+						<DMTable tableData = {data}/>
+					</div>
 				: null}
 				<div className="collapser">
 					<button onClick={() => setShow1(show1 => !show1)}>{show1 ? <b>&lt;</b> : <b>&gt;</b>}</button>
@@ -78,14 +71,9 @@ const Screen = () => {
 					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <b>&gt;</b> : <b>&lt;</b>}</button>
 				</div>
 				{show2 ? 
-					show1 ?
-						<div className="tableArea">
-							<DMTable tableData = {data}/>
-						</div> 
-					:
-						<div className="bigtableArea">
-							<DMTable tableData = {data}/>
-						</div>
+					<div className={show1 ? "tableArea" : "bigtableArea"}>
+						<DMTable tableData = {data}/>
+					</div> 
 				: null}
 			</div>
     	</div>

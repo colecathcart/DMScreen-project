@@ -19,4 +19,16 @@ app.get("/screen",(request, response)=>{
 	})
 })
 
+app.get("/search",(request, response)=>{
+	const name = request.query.name
+	axios.get("https://www.dnd5eapi.co/api/"+name)
+	.then((res)=>{
+		console.log(res.data)
+		return response.json(res.data)
+	})
+	.catch(function(error){
+		console.log(error)
+	})
+})
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
