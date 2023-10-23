@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {FaSearch} from "react-icons/fa"
 import axios from 'axios'
-const Searchbar = ({setRules}) => {
+const Searchbar = ({settheRules}) => {
 
 	const [input, setInput] = useState("")
 	const [spells, setSpells] = useState()
@@ -25,24 +25,28 @@ const Searchbar = ({setRules}) => {
 			return value && item && item.name && item.name.toLowerCase().includes(value)
 		})
 		setResults(res.slice(0,10))
-		console.log(results)
+		//console.log(results)
 	}
 
 	const handleRuleAdd = async (rule) => {
 		try {
+			setInput("")
+			setResults([])
 			const res = await axios.get("http://localhost:4000/search?url="+rule.url)
 			//console.log(res.data)
-			setRules(prevRules => [...prevRules, res.data])
+			//setRules(prevRules => [...prevRules, {spell : res.data, key : keynum}])
+			//setKey(keynum++)
+			settheRules(res.data)
 		} catch (error) {
 			console.log(error)
 		}
-		//setRules(prevRules => [...prevRules, rule])
 	}
 
 	return (
 		<div>
 			<div className="searchbar">
 				<FaSearch/>
+				
 				<input placeholder="add a new item" value={input} onChange={e => handleSearch(e.target.value)}/>
 			</div>
 			<table className="searchresults">

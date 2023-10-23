@@ -9,6 +9,7 @@ const Screen = () => {
 
 	const [show1, setShow1] = useState(true)
 	const [show2, setShow2] = useState(true)
+	const [key, setKey] = useState(0)
 	const [rulesleft, setRulesleft] = useState([])
 	const [rulesright, setRulesright] = useState([])
 
@@ -17,6 +18,18 @@ const Screen = () => {
 	const handleNavigate = async e =>{
 		e.preventDefault()
 		navigate("/")
+	}
+
+	const handleRemoveleft = (id) =>{
+		let newrules = rulesleft
+		setRulesleft(newrules.filter(item => item.thekey !== id))
+		console.log("removed " + id)
+	}
+
+	const handleRemoveright = (id) =>{
+		let newrules = rulesright
+		setRulesright(newrules.filter(item => item.thekey !== id))
+		console.log("removed " + id)
 	}
 
 	const data = {
@@ -29,10 +42,19 @@ const Screen = () => {
 			[[10], "r3c2", "Rocks fall. Each party member takes 100d10 damage"]
 		]
 	}
-	console.log(data)
+
+	const ruleaddLeft = (spell) => {
+		setRulesleft(rulesleft => [...rulesleft, {spell : spell, thekey : key}])
+		setKey(key + 1)
+	}
+
+	const ruleaddRight = (spell) => {
+		setRulesright(rulesright => [...rulesright, {spell : spell, thekey : key}])
+		setKey(key + 1)
+	}
 
 	return (
-		<div className="App">
+		<div className="App">{console.log(rulesleft)}
 			<div className="header">
 				<h1>DMScreen</h1>
 				<button onClick={handleNavigate}>Logout</button>
@@ -40,11 +62,10 @@ const Screen = () => {
 			<div className="mainArea">
 				{show1 ? 
 					<div className={show2 ? "tableArea" : "bigtableArea"}>
-						<Searchbar setRules={setRulesleft}/>
+						<Searchbar settheRules={ruleaddLeft}/>
 						<DMTable tableData = {data}/>
 						{rulesleft.map((rule, id) => {
-							console.log(rule)
-							return <DMSpell spell={rule}/>
+							return <DMSpell data={rule} handleRemove={handleRemoveleft} index={id}/>
 						})}
 					</div>
 				: null}
@@ -53,8 +74,10 @@ const Screen = () => {
 				</div>
 				<div className="iframediv">
 					<div className="tabbar">
-						<button>test</button>
-						<button>test2</button>
+						<button className="currenttab">test<button className="tabbutton">x</button></button>
+						<button className="tab">test2<button className="tabbutton">x</button></button>
+						<button className="tab">test2<button className="tabbutton">x</button></button>
+						<button className="tabadd"><b>+</b></button>
 					</div>
 					<iframe src="https://improvedinitiative.app/" title="improved initiative"></iframe>
 				</div>
@@ -63,10 +86,10 @@ const Screen = () => {
 				</div>
 				{show2 ? 
 					<div className={show1 ? "tableArea" : "bigtableArea"}>
-						<Searchbar setRules={setRulesright}/>
+						<Searchbar setRules={ruleaddRight}/>
 						<DMTable tableData = {data}/>
 						{rulesright.map((rule, id) => {
-							return <DMSpell spell={rule}/>
+							return <DMSpell spell={rule} handleRemove={handleRemoveright} index={id}/>
 						})}
 					</div> 
 				: null}

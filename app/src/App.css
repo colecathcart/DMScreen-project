@@ -161,13 +161,56 @@ iframe {
 
 .tab {
   float: left;
+  height: 23px;
+  min-width: 60px;
   margin: 0px;
+  margin-left: 2px;
+  padding-right: 4px;
+  background-color: rgb(212, 212, 212);
+  border-radius: 5px 5px 0px 0px;
+  border: none;
+}
+
+.tabadd {
+  float: right;
+  height: 23px;
+  margin: 0px;
+  margin-left: 3px;
+  padding-right: 5px;
+  padding-left: 5px;
+  background-color: rgb(212, 212, 212);
+  border-radius: 5px 5px 0px 0px;
+  border: none;
+}
+
+.currenttab {
+  float: left;
+  height: 23px;
+  min-width: 60px;
+  margin: 0px;
+  margin-left: 2px;
+  padding-right: 4px;
+  background-color: rgb(177, 177, 177);
+  border-radius: 5px 5px 0px 0px;
+  border: none;
+}
+
+.tabbutton {
+  margin-left: 4px;
+  margin-right: 0px;
+  padding: 0px 4px 1px 4px;
+  border: 0px;
+  color: white;
+  background-color: rgb(197, 197, 197);
+  border-radius: 5px;
+  float: right;
 }
 
 .tabbar {
-  background-color:lightgrey;
+  background-color:rgb(235, 235, 235);
   display: flex;
   justify-content: flex-start;
+  padding: 4px 0px 0px 4px
 }
 
 .mainArea {
