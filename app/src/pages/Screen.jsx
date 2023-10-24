@@ -14,6 +14,11 @@ const Screen = () => {
 	const [rulesright, setRulesright] = useState([])
 	const [tabs, setTabs] = useState([{name : "improved-initiative", url : "https://improvedinitiative.app", id : 0}])
 	const [pagetab, setPageTab] = useState(tabs[0])
+	const [newtabscreen, setNewTabScreen] = useState(false)
+	const [errmsg, setErrMsg] = useState(false)
+
+	let newtabname = ""
+	let newtaburl = ""
 
 	const navigate = useNavigate()
 
@@ -55,16 +60,33 @@ const Screen = () => {
 		setKey(key + 1)
 	}
 
-	const tabClick = (tab) => {
-
+	const removeTab = (deltab) => {
+		if(pagetab.name === deltab.name){
+			console.log("here")
+			console.log(tabs[0])
+			setPageTab(tabs[0])
+			console.log("tabs:", tabs)
+			console.log(tabs[0])
+			console.log("name:",pagetab)
+		}
+		console.log(deltab)
+		let newtabs = tabs
+		let filteredtabs = newtabs.filter(tab => tab.name !== deltab.name)
+		setTabs(filteredtabs)
 	}
 
-	const removeTab = (deltab) => {
-		let newtabs = tabs
-		let newcurrtab = tabs[tabs.findIndex(t => {return t.name === deltab.name}) - 1]
-		setTabs(newtabs.filter(tab => tab.name !== deltab.name))
-		if(pagetab.name === deltab.name){
-			setPageTab(newcurrtab)
+	const handleAddTab = () => {
+		if(tabs.findIndex((tab) => tab.name === newtabname) !== -1){
+			newtabname = ""
+			setErrMsg(true)
+		} else {
+			const newtab = {name: newtabname, url: newtaburl}
+			setTabs(tabs => [...tabs, newtab])
+			setPageTab(newtab)
+			setErrMsg(false)
+			setNewTabScreen(false)
+			newtabname = ""
+			newtaburl = ""
 		}
 	}
 
@@ -90,12 +112,23 @@ const Screen = () => {
 				<div className="iframediv">
 					<div className="tabbar">
 						{tabs.map((tab, id) => {
-							return <button className={tab.name === pagetab.name ? "currenttab" : "tab"} onClick={(tab) => tabClick(tab)}>{tab.name}<button className="tabbutton" onClick={(tab) => removeTab(tab)}>x</button></button>
+							console.log(tab)
+							return <button className={tab.name === pagetab.name ? "currenttab" : "tab"} onClick={() => setPageTab(tab)}>{tab.name}<button className="tabbutton" onClick={() => removeTab(tab)}>x</button></button>
 						})}
-						<button className="currenttab">test<button className="tabbutton">x</button></button>
-						<button className="tab">test2<button className="tabbutton">x</button></button>
-						<button className="tab">test2<button className="tabbutton">x</button></button>
-						<button className="tabadd"><b>+</b></button>
+						<div>
+							<button className="tabadd" onClick={() => setNewTabScreen(true)}><b>+</b></button>
+							{newtabscreen ? 
+								<div className="newtabwindow">
+									<input placeholder="tab name (must be unique)" onChange={e => {newtabname = e.target.value}}></input>
+									{errmsg ? <i style={{color: 'red'}}>name must be unique</i> : null}
+									<input placeholder="url" onChange={e => {newtaburl = e.target.value}}></input>
+									<div>
+										<button style={{float: 'left'}} onClick={handleAddTab}>Ok</button>
+										<button style={{float: 'right'}} onClick={() => {setNewTabScreen(false); setErrMsg(false)}}>x</button>
+									</div>
+								</div> 
+							: null}
+						</div>
 					</div>
 					<iframe src={pagetab.url} title={pagetab.name}></iframe>
 				</div>

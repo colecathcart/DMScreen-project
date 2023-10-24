@@ -175,6 +175,10 @@ iframe {
   background-color: rgb(201, 201, 201);
 }
 
+.tabadd:hover {
+  background-color: rgb(201, 201, 201);
+}
+
 .tabadd {
   float: right;
   height: 23px;
@@ -215,6 +219,33 @@ iframe {
   display: flex;
   justify-content: flex-start;
   padding: 4px 0px 0px 4px
+}
+
+.newtabwindow {
+  background-color: white;
+  position: absolute;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-direction: column;
+  padding: 5px
+}
+
+.newtabwindow button {
+  border: none;
+  border-radius: 2px;
+}
+
+.newtabwindow input {
+  border: none;
+  margin-bottom: 5px;
+  background-color:rgb(231, 231, 231);
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.newtabwindow input:focus {
+  outline: none;
 }
 
 .mainArea {
