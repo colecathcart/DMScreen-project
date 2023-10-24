@@ -12,6 +12,8 @@ const Screen = () => {
 	const [key, setKey] = useState(0)
 	const [rulesleft, setRulesleft] = useState([])
 	const [rulesright, setRulesright] = useState([])
+	const [tabs, setTabs] = useState([{name : "improved-initiative", url : "https://improvedinitiative.app", id : 0}])
+	const [pagetab, setPageTab] = useState(tabs[0])
 
 	const navigate = useNavigate()
 
@@ -53,6 +55,19 @@ const Screen = () => {
 		setKey(key + 1)
 	}
 
+	const tabClick = (tab) => {
+
+	}
+
+	const removeTab = (deltab) => {
+		let newtabs = tabs
+		let newcurrtab = tabs[tabs.findIndex(t => {return t.name === deltab.name}) - 1]
+		setTabs(newtabs.filter(tab => tab.name !== deltab.name))
+		if(pagetab.name === deltab.name){
+			setPageTab(newcurrtab)
+		}
+	}
+
 	return (
 		<div className="App">{console.log(rulesleft)}
 			<div className="header">
@@ -74,12 +89,15 @@ const Screen = () => {
 				</div>
 				<div className="iframediv">
 					<div className="tabbar">
+						{tabs.map((tab, id) => {
+							return <button className={tab.name === pagetab.name ? "currenttab" : "tab"} onClick={(tab) => tabClick(tab)}>{tab.name}<button className="tabbutton" onClick={(tab) => removeTab(tab)}>x</button></button>
+						})}
 						<button className="currenttab">test<button className="tabbutton">x</button></button>
 						<button className="tab">test2<button className="tabbutton">x</button></button>
 						<button className="tab">test2<button className="tabbutton">x</button></button>
 						<button className="tabadd"><b>+</b></button>
 					</div>
-					<iframe src="https://improvedinitiative.app/" title="improved initiative"></iframe>
+					<iframe src={pagetab.url} title={pagetab.name}></iframe>
 				</div>
 				<div className="collapser">
 					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <b>&gt;</b> : <b>&lt;</b>}</button>
