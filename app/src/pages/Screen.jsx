@@ -12,7 +12,9 @@ const Screen = () => {
 	const [key, setKey] = useState(0)
 	const [rulesleft, setRulesleft] = useState([])
 	const [rulesright, setRulesright] = useState([])
-	const [tabs, setTabs] = useState([{name : "improved-initiative", url : "https://improvedinitiative.app", id : 0}])
+	const [tabs, setTabs] = useState([
+		{name : "dice roller", url : "test.html", id : -1},
+		{name : "improved-initiative", url : "https://improvedinitiative.app", id : 0}])
 	const [pagetab, setPageTab] = useState(tabs[0])
 	const [newtabscreen, setNewTabScreen] = useState(false)
 	const [errmsg, setErrMsg] = useState(false)
@@ -113,7 +115,7 @@ const Screen = () => {
 					<div className="tabbar">
 						{tabs.map((tab, id) => {
 							console.log(tab)
-							return <button className={tab.name === pagetab.name ? "currenttab" : "tab"} onClick={() => setPageTab(tab)}>{tab.name}<button className="tabbutton" onClick={() => removeTab(tab)}>x</button></button>
+							return <button className={tab.name === pagetab.name ? "currenttab" : "tab"} onClick={() => setPageTab(tab)}>{tab.name}{tab.id === -1 ? null : <button className="tabbutton" onClick={() => removeTab(tab)}>x</button>}</button>
 						})}
 						<div>
 							<button className="tabadd" onClick={() => setNewTabScreen(true)}><b>+</b></button>
@@ -130,17 +132,20 @@ const Screen = () => {
 							: null}
 						</div>
 					</div>
-					<iframe src={pagetab.url} title={pagetab.name}></iframe>
+					{tabs.map((tab, id) => {
+						return <iframe src={tab.url} title={tab.name} style={tab.name === pagetab.name ? {display: 'block'} : {display: 'none'}}></iframe>
+					})}
+					
 				</div>
 				<div className="collapser">
 					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <b>&gt;</b> : <b>&lt;</b>}</button>
 				</div>
 				{show2 ? 
 					<div className={show1 ? "tableArea" : "bigtableArea"}>
-						<Searchbar setRules={ruleaddRight}/>
+						<Searchbar settheRules={ruleaddRight}/>
 						<DMTable tableData = {data}/>
 						{rulesright.map((rule, id) => {
-							return <DMSpell spell={rule} handleRemove={handleRemoveright} index={id}/>
+							return <DMSpell data={rule} handleRemove={handleRemoveright} index={id}/>
 						})}
 					</div> 
 				: null}
