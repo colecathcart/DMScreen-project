@@ -56,7 +56,7 @@
 }
 
 .tableContainer {
-  background-color: rgb(223, 203, 203);
+  background-color: rgb(88, 156, 102);
   border-radius: 5px;
   width: fit-content;
   max-width: 900px;
@@ -132,7 +132,7 @@ iframe {
 }
 
 .tableArea {
-  background-color: rgb(197, 197, 218);
+  background-color: rgb(141, 155, 152);
   min-width: 20%;
   height: 94vh;
   overflow-y: auto;
@@ -299,6 +299,14 @@ iframe {
 
 .searchresult button:hover {
   background-color: gray;
+}
+
+.spellinfo tr:nth-child(even) td{
+  background-color: rgb(199, 194, 194);
+}
+
+.spellinfo tr:nth-child(odd) td{
+  background-color: rgb(231, 224, 224);
 }
 
 @keyframes App-logo-spin {

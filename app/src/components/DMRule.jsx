@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const DMRule = ({data, handleRemove, index}) => {
 
@@ -24,9 +25,9 @@ const DMRule = ({data, handleRemove, index}) => {
 					</div>
 					<div className="spellinfo">
 						{rule.url.match("/api/conditions") ? 
-							rule.desc.map((p) => (<ReactMarkdown children={p}/>))
+							<ReactMarkdown remarkPlugins={[remarkGfm]} children={rule.desc.join("")}/>
 						:
-							<ReactMarkdown children={rule.desc}/>}
+							<ReactMarkdown remarkPlugins={[remarkGfm]} children={rule.desc}/>}
 					</div>
 				</div>) 
 			: null}

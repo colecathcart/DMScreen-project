@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const DMSpell = ({data, handleRemove, index}) => {
 
@@ -28,7 +29,7 @@ const DMSpell = ({data, handleRemove, index}) => {
 						<p><b>Range: </b>{spell.range}</p>
 						<p><b>Components: </b>{spell.components.map((c) => (<i>{c}  </i>))} {spell.material ? "("+spell.material+")" : ""}</p>
 						<p><b>Duration: </b>{spell.duration}</p>
-						{spell.desc.map((p) => (<ReactMarkdown children={p}/>))}
+						<ReactMarkdown remarkPlugins={[remarkGfm]} children={spell.desc.join("")}/>
 						<p>{spell.higher_level}</p>
 						<i>{spell.classes.map((c) => (<i>{c.name} </i>))}</i>
 					</div>

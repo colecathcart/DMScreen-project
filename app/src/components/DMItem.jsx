@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const DMItem = ({data, handleRemove, index}) => {
 
@@ -27,12 +28,12 @@ const DMItem = ({data, handleRemove, index}) => {
 							<i>{item.equipment_category.name}</i>
 							<p><b>Cost: </b>{item.cost.quantity} {item.cost.unit}</p>
 							<p><b>Weight: </b>{item.weight}</p>
-							{item.desc.map((p) => (<ReactMarkdown children={p}/>))}
+							<ReactMarkdown children={item.desc.join("")}/>
 						</div>
 					:
 						<div className="spellinfo">
 							<i>{item.desc[0]}</i>
-							<ReactMarkdown children={item.desc.slice(1, item.desc.length).join('\n')}/>
+							<ReactMarkdown remarkPlugins={[remarkGfm]} children={item.desc.slice(1, item.desc.length).join("")}/>
 						</div>
 					}
 				</div>) 

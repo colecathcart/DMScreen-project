@@ -52,7 +52,7 @@ const Searchbar = ({settheRules}) => {
 			setspellResults([])
 			setruleResults([])
 			setitemResults([])
-			const res = await axios.get("http://localhost:4000/search?url="+rule.url)
+			const res = await axios.get("http://localhost:4000/add?url="+rule.url)
 			//console.log(res.data)
 			//setRules(prevRules => [...prevRules, {spell : res.data, key : keynum}])
 			//setKey(keynum++)
