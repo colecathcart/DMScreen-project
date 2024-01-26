@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react"
 import {useNavigate} from "react-router-dom"
 import DMTable from "../components/DMTable"
 import DMSpell from "../components/DMSpell"
+import DMRule from "../components/DMRule"
+import DMItem from "../components/DMItem"
 import Searchbar from "../components/Searchbar"
 import axios from 'axios'
 
@@ -52,13 +54,13 @@ const Screen = () => {
 		]
 	}
 
-	const ruleaddLeft = (spell) => {
-		setRulesleft(rulesleft => [...rulesleft, {spell : spell, thekey : key}])
+	const ruleaddLeft = (rule) => {
+		setRulesleft(rulesleft => [...rulesleft, {rule : rule, thekey : key}])
 		setKey(key + 1)
 	}
 
-	const ruleaddRight = (spell) => {
-		setRulesright(rulesright => [...rulesright, {spell : spell, thekey : key}])
+	const ruleaddRight = (rule) => {
+		setRulesright(rulesright => [...rulesright, {rule : rule, thekey : key}])
 		setKey(key + 1)
 	}
 
@@ -92,6 +94,17 @@ const Screen = () => {
 		}
 	}
 
+	const componentMatcher = (rule, remover, id) => {
+		if(rule.rule.url.match("/api/spells")){
+			return <DMSpell data={rule} handleRemove={remover} index={id}/>
+		} else if(rule.rule.url.match("/api/equipment") || rule.rule.url.match("/api/magic-items")){
+			return <DMItem data={rule} handleRemove={remover} index={id}/>
+		} else {
+			return <DMRule data={rule} handleRemove={remover} index={id}/>
+		}
+		
+	}
+
 	return (
 		<div className="App">{console.log(rulesleft)}
 			<div className="header">
@@ -104,7 +117,7 @@ const Screen = () => {
 						<Searchbar settheRules={ruleaddLeft}/>
 						<DMTable tableData = {data}/>
 						{rulesleft.map((rule, id) => {
-							return <DMSpell data={rule} handleRemove={handleRemoveleft} index={id}/>
+							return componentMatcher(rule, handleRemoveleft, id)
 						})}
 					</div>
 				: null}
@@ -145,7 +158,7 @@ const Screen = () => {
 						<Searchbar settheRules={ruleaddRight}/>
 						<DMTable tableData = {data}/>
 						{rulesright.map((rule, id) => {
-							return <DMSpell data={rule} handleRemove={handleRemoveright} index={id}/>
+							return componentMatcher(rule, handleRemoveright, id)
 						})}
 					</div> 
 				: null}

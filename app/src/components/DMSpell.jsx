@@ -1,8 +1,9 @@
 import React, {useState} from "react"
+import ReactMarkdown from 'react-markdown'
 
 const DMSpell = ({data, handleRemove, index}) => {
 
-	const spell = data.spell
+	const spell = data.rule
 	const key = data.thekey
 
 	const [vis, setVis] = useState(true)
@@ -22,12 +23,12 @@ const DMSpell = ({data, handleRemove, index}) => {
 						<button onClick={(e) => removeMe(e)}>X</button>
 					</div>
 					<div className="spellinfo">
-						<i>{spell.level === "0" ? "level "+spell.level : "cantrip"} {spell.school.name} {spell.ritual ? "(ritual)" : ""}</i>
+						<i>{spell.level !== 0 ? "level "+spell.level : "cantrip"} {spell.school.name} {spell.ritual ? "(ritual)" : ""}</i>
 						<p><b>Casting Time: </b>{spell.casting_time}</p>
 						<p><b>Range: </b>{spell.range}</p>
 						<p><b>Components: </b>{spell.components.map((c) => (<i>{c}  </i>))} {spell.material ? "("+spell.material+")" : ""}</p>
 						<p><b>Duration: </b>{spell.duration}</p>
-						{spell.desc.map((p) => (<p>{p}</p>))}
+						{spell.desc.map((p) => (<ReactMarkdown children={p}/>))}
 						<p>{spell.higher_level}</p>
 						<i>{spell.classes.map((c) => (<i>{c.name} </i>))}</i>
 					</div>

@@ -110,13 +110,13 @@
 	flex-flow: column wrap;
 	align-content: flex-start;
 	text-align: left;
-	padding: 3px;
+	padding: 5px;
 	background-color: white;
 	border-radius: 0px 0px 5px 5px;
 }
 
 .spellinfo p {
-  margin: 5px;
+  margin: 3px;
 }
 
 iframe {
