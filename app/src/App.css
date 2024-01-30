@@ -31,6 +31,7 @@
 .header {
   display: flex;
   flex-direction: row;
+  height: 7vh;
 }
 
 .header h1 {
@@ -123,32 +124,35 @@ iframe {
   width: 100%;
   resize: both;
   overflow: auto;
-  height: 91vh;
+  height: 89vh
 }
 
 .iframediv {
+  max-width: 900px;
   width: 100%;
-  height: 94vh;
+  height: 100%;
 }
 
 .tableArea {
   background-color: rgb(141, 155, 152);
   min-width: 20%;
-  height: 94vh;
+  float: none;
   overflow-y: auto;
+  flex-grow: 100;
   padding: 5px;
+  flex-grow: 100;
 }
 
 .bigtableArea {
-  background-color: rgb(197, 197, 218);
+  background-color: rgb(141, 155, 152);
   min-width: 40%;
   height: auto;
+  overflow-y: auto;
   padding: 5px;
 }
 
 .collapser {
   background-color: rgb(197, 197, 218);
-  height: auto;
   display: flex;
 }
 
@@ -156,7 +160,7 @@ iframe {
   background-color: lightgray;
   align-self: center;
   border: 0px;
-  height: 94vh
+  height: 100%;
 }
 
 .tab {
@@ -165,10 +169,26 @@ iframe {
   min-width: 60px;
   margin: 0px;
   margin-left: 2px;
+  margin-top: auto;
   padding-right: 4px;
   background-color: rgb(212, 212, 212);
   border-radius: 5px 5px 0px 0px;
   border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabtext {
+  max-width: 110px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tabtext {
+  margin: 0;
 }
 
 .tab:hover {
@@ -184,8 +204,9 @@ iframe {
   height: 23px;
   margin: 0px;
   margin-left: 3px;
-  padding-right: 5px;
-  padding-left: 5px;
+  margin-top: auto;
+  padding-right: 10px;
+  padding-left: 10px;
   background-color: rgb(212, 212, 212);
   border-radius: 5px 5px 0px 0px;
   border: none;
@@ -196,15 +217,20 @@ iframe {
   height: 23px;
   min-width: 60px;
   margin: 0px;
+  margin-top: auto;
   margin-left: 2px;
   padding-right: 4px;
   background-color: rgb(177, 177, 177);
   border-radius: 5px 5px 0px 0px;
   border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .tabbutton {
-  margin-left: 4px;
+  margin-left: auto;
   margin-right: 0px;
   padding: 0px 4px 1px 4px;
   border: 0px;
@@ -218,7 +244,11 @@ iframe {
   background-color:rgb(235, 235, 235);
   display: flex;
   justify-content: flex-start;
-  padding: 4px 0px 0px 4px
+  padding: 4px 0px 0px 4px;
+  height: 30px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .newtabwindow {
@@ -251,6 +281,7 @@ iframe {
 .mainArea {
   display: flex;
   flex-direction: row;
+  height: 93vh;
 }
 
 .searchbar {

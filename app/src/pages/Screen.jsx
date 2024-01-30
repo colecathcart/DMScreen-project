@@ -5,7 +5,7 @@ import DMSpell from "../components/DMSpell"
 import DMRule from "../components/DMRule"
 import DMItem from "../components/DMItem"
 import Searchbar from "../components/Searchbar"
-import axios from 'axios'
+import {FaCaretLeft, FaCaretRight} from "react-icons/fa6";
 
 const Screen = () => {
 
@@ -68,7 +68,7 @@ const Screen = () => {
 		if(pagetab.name === deltab.name){
 			console.log("here")
 			console.log(tabs[0])
-			setPageTab(tabs[0])
+			pagetabSetter(tabs[0])
 			console.log("tabs:", tabs)
 			console.log(tabs[0])
 			console.log("name:",pagetab)
@@ -77,6 +77,14 @@ const Screen = () => {
 		let newtabs = tabs
 		let filteredtabs = newtabs.filter(tab => tab.name !== deltab.name)
 		setTabs(filteredtabs)
+	}
+
+	const pagetabSetter = (tab) => {
+		if(tabs.includes(tab)){
+			setPageTab(tab)
+		} else {
+			setPageTab(tabs[0])
+		}
 	}
 
 	const handleAddTab = () => {
@@ -122,16 +130,15 @@ const Screen = () => {
 					</div>
 				: null}
 				<div className="collapser">
-					<button onClick={() => setShow1(show1 => !show1)}>{show1 ? <b>&lt;</b> : <b>&gt;</b>}</button>
+					<button onClick={() => setShow1(show1 => !show1)}>{show1 ? <FaCaretLeft/> : <FaCaretRight/>}</button>
 				</div>
 				<div className="iframediv">
 					<div className="tabbar">
 						{tabs.map((tab, id) => {
 							console.log(tab)
-							return <button className={tab.name === pagetab.name ? "currenttab" : "tab"} onClick={() => setPageTab(tab)}>{tab.name}{tab.id === -1 ? null : <button className="tabbutton" onClick={() => removeTab(tab)}>x</button>}</button>
+							return <button className={tab.name === pagetab.name ? "currenttab" : "tab"} onClick={() => pagetabSetter(tab)}><p className="tabtext">{tab.name}</p>{tab.id === -1 ? null : <button className="tabbutton" onClick={() => removeTab(tab)}>x</button>}</button>
 						})}
 						<div>
-							<button className="tabadd" onClick={() => setNewTabScreen(true)}><b>+</b></button>
 							{newtabscreen ? 
 								<div className="newtabwindow">
 									<input placeholder="tab name (must be unique)" onChange={e => {newtabname = e.target.value}}></input>
@@ -144,6 +151,7 @@ const Screen = () => {
 								</div> 
 							: null}
 						</div>
+						<button className="tabadd" onClick={() => setNewTabScreen(true)}><b>+</b></button>
 					</div>
 					{tabs.map((tab, id) => {
 						return <iframe src={tab.url} title={tab.name} style={tab.name === pagetab.name ? {display: 'block'} : {display: 'none'}}></iframe>
@@ -151,7 +159,7 @@ const Screen = () => {
 					
 				</div>
 				<div className="collapser">
-					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <b>&gt;</b> : <b>&lt;</b>}</button>
+					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <FaCaretRight/> : <FaCaretLeft/>}</button>
 				</div>
 				{show2 ? 
 					<div className={show1 ? "tableArea" : "bigtableArea"}>

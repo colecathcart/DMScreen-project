@@ -31,7 +31,7 @@ const DMSpell = ({data, handleRemove, index}) => {
 						<p><b>Duration: </b>{spell.duration}</p>
 						<ReactMarkdown remarkPlugins={[remarkGfm]} children={spell.desc.join("")}/>
 						<p>{spell.higher_level}</p>
-						<i>{spell.classes.map((c) => (<i>{c.name} </i>))}</i>
+						<i>{spell.classes.map((c) => (<i>{c.name}{c.name === spell.classes[spell.classes.length - 1].name ? null : ","} </i>))}</i>
 					</div>
 				</div>) 
 			: null}
