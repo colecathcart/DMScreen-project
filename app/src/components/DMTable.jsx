@@ -1,11 +1,11 @@
 import React, {useState} from "react"
 
-const DMTable = (tI) => {
+const DMTable = ({tableData: {rule,key}}) => {
 
 	const [vis, setVis] = useState(true)
 	const [rolling, setRolling] = useState(false)
 	const [rollres, setRollres] = useState(-1)
-
+	console.log(rule)
 	const removeMe = () => {
 		setVis((prev) => !prev)
 	}
@@ -40,35 +40,35 @@ const DMTable = (tI) => {
 
 	const roll = () =>{
 		setRolling(true)
-		let min = tI.tableData.rows[0][0][0]
+		let min = rule.rows[0][0][0]
 		//console.log(min)
-		let max = tI.tableData.rows[tI.tableData.rows.length - 1][0][tI.tableData.rows[tI.tableData.rows.length -1][0].length - 1] + 1
+		let max = rule.rows[rule.rows.length - 1][0][rule.rows[rule.rows.length -1][0].length - 1] + 1
 		//console.log(max)
 		setRollres(Math.floor(Math.random() * (max - min)) + min)
 	}
 
 	const headers = []
-	for (let i = 0; i < tI.tableData.headers.length; i++){
+	for (let i = 0; i < rule.headers.length; i++){
 		if(i === 0){
-			headers.push(<th>{isRoll(tI.tableData.roll) ? <button onClick={roll}><b>{tI.tableData.headers[i]}: </b>{rolling ? rollres : null}</button> : tI.tableData.headers[i]}</th>)
+			headers.push(<th>{isRoll(rule.roll) ? <button onClick={roll}><b>{rule.headers[i]}: </b>{rolling ? rollres : null}</button> : rule.headers[i]}</th>)
 		} else {
-			headers.push(<th>{tI.tableData.headers[i]}</th>)
+			headers.push(<th>{rule.headers[i]}</th>)
 		}
 	}
 
 	const rows = []
-	for (let i = 0; i < tI.tableData.rows.length; i++){
+	for (let i = 0; i < rule.rows.length; i++){
 		let row = []
-		for (let j = 0; j < tI.tableData.rows[i].length; j++){
-			if(j === 0 && isRoll(tI.tableData.roll) && tI.tableData.rows[i][j].length > 1){
-				row.push(<td>{tI.tableData.rows[i][j][0]}-{tI.tableData.rows[i][j][1]}</td>)
+		for (let j = 0; j < rule.rows[i].length; j++){
+			if(j === 0 && isRoll(rule.roll) && rule.rows[i][j].length > 1){
+				row.push(<td>{rule.rows[i][j][0]}-{rule.rows[i][j][1]}</td>)
 			}else{
-				row.push(<td>{tI.tableData.rows[i][j]}</td>)
+				row.push(<td>{rule.rows[i][j]}</td>)
 			}
 		}
-		if(isRoll(tI.tableData.roll)){
+		if(isRoll(rule.roll)){
 
-			rows.push(<tr className={numWasRolled(tI.tableData.rows[i][0]) ? "rolledrow" : "tablerow"}>{row}</tr>)
+			rows.push(<tr className={numWasRolled(rule.rows[i][0]) ? "rolledrow" : "tablerow"}>{row}</tr>)
 		} else {
 			rows.push(<tr className="tablerow">{row}</tr>)
 		}
@@ -76,11 +76,11 @@ const DMTable = (tI) => {
 
 	return (
 		<div>
-			{console.log(tI.tableData)}
+			{console.log(rule)}
 			{vis ? ( 
 				<div className="tableContainer">
 					<div className="tableHeader">
-						<h4>{tI.tableData.title}</h4>
+						<h4>{rule.title}</h4>
 						<button onClick={removeMe}>X</button>
 					</div>
 					<table className="dmbasictable">

@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {FaSearch} from "react-icons/fa"
+import { FaGear } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa6";
 import axios from 'axios'
 const Searchbar = ({settheRules}) => {
 
@@ -96,7 +98,7 @@ const Searchbar = ({settheRules}) => {
 					})}
 					{tableresults.length ? <th className="searchresult">Your Tables</th> : null}
 					{tableresults.map((result, id) => {
-						return <tr className="searchresult"><button key={id} onClick={() => handleRuleAdd(result)}>{result.title}</button></tr>
+						return <tr className="searchresult"><button key={id} onClick={() => handleRuleAdd(result)}>{result.title}</button><button className="editbtn"><FaGear/></button><button className="editbtn"><FaTrash/></button></tr>
 					})}
 				</tbody>
 			</table>

@@ -176,7 +176,6 @@ const Screen = () => {
 				{show2 ? 
 					<div className={show1 ? "tableArea" : "bigtableArea"}>
 						<Searchbar settheRules={ruleaddRight}/>
-						<DMTable tableData = {data}/>
 						{rulesright.map((rule, id) => {
 							return componentMatcher(rule, handleRemoveright, id)
 						})}
