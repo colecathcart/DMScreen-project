@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react"
+import axios from 'axios'
 import {useNavigate} from "react-router-dom"
 import DMTable from "../components/DMTable"
 import DMSpell from "../components/DMSpell"
@@ -103,7 +104,9 @@ const Screen = () => {
 	}
 
 	const componentMatcher = (rule, remover, id) => {
-		if(rule.rule.url.match("/api/spells")){
+		if(rule.rule.title){
+			return <DMTable tableData={rule}/>
+		}else if(rule.rule.url.match("/api/spells")){
 			return <DMSpell data={rule} handleRemove={remover} index={id}/>
 		} else if(rule.rule.url.match("/api/equipment") || rule.rule.url.match("/api/magic-items")){
 			return <DMItem data={rule} handleRemove={remover} index={id}/>
@@ -111,6 +114,15 @@ const Screen = () => {
 			return <DMRule data={rule} handleRemove={remover} index={id}/>
 		}
 		
+	}
+
+	const newdbtest = async (e) => {
+		try {
+			const res = await axios.get("http://localhost:4000/newtable")
+		} catch (err){
+			console.log(err)
+		}
+			
 	}
 
 	return (
@@ -123,7 +135,7 @@ const Screen = () => {
 				{show1 ? 
 					<div className={show2 ? "tableArea" : "bigtableArea"}>
 						<Searchbar settheRules={ruleaddLeft}/>
-						<DMTable tableData = {data}/>
+						<button onClick={newdbtest}>click me</button>
 						{rulesleft.map((rule, id) => {
 							return componentMatcher(rule, handleRemoveleft, id)
 						})}

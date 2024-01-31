@@ -76,6 +76,7 @@ const DMTable = (tI) => {
 
 	return (
 		<div>
+			{console.log(tI.tableData)}
 			{vis ? ( 
 				<div className="tableContainer">
 					<div className="tableHeader">
