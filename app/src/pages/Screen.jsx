@@ -7,6 +7,7 @@ import DMRule from "../components/DMRule"
 import DMItem from "../components/DMItem"
 import Searchbar from "../components/Searchbar"
 import {FaCaretLeft, FaCaretRight} from "react-icons/fa6";
+import { FaDiceD20 } from "react-icons/fa";
 
 const Screen = () => {
 
@@ -128,6 +129,7 @@ const Screen = () => {
 	return (
 		<div className="App">{console.log(rulesleft)}
 			<div className="header">
+				<FaDiceD20 size={42}/>
 				<h1>DMScreen</h1>
 				<button onClick={handleNavigate}>Logout</button>
 			</div>
@@ -135,7 +137,7 @@ const Screen = () => {
 				{show1 ? 
 					<div className={show2 ? "tableArea" : "bigtableArea"}>
 						<Searchbar settheRules={ruleaddLeft}/>
-						<button onClick={newdbtest}>click me</button>
+						{/*<button onClick={newdbtest}>click me</button>*/}
 						{rulesleft.map((rule, id) => {
 							return componentMatcher(rule, handleRemoveleft, id)
 						})}
