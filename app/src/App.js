@@ -7,6 +7,7 @@ import {
 } from "react-router-dom"
 import Login from "./pages/Login"
 import Screen from "./pages/Screen"
+import Privateroute from "./components/Privateroute"
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login/>}/>
-          <Route path="/screen" element={<Screen/>}/>
+          <Route path="/screen" element={<Privateroute><Screen/></Privateroute>}/>
         </Routes>
       </BrowserRouter>
     </div>

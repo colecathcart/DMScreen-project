@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react"
 import axios from 'axios'
+import Cookies from 'js-cookie'
 import {useNavigate} from "react-router-dom"
 import DMTable from "../components/DMTable"
 import DMSpell from "../components/DMSpell"
@@ -131,6 +132,7 @@ const Screen = () => {
 			<div className="header">
 				<FaDiceD20 size={42}/>
 				<h1>DMScreen</h1>
+				<p>{Cookies.get('username')}</p>
 				<button onClick={handleNavigate}>Logout</button>
 			</div>
 			<div className="mainArea">

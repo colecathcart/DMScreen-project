@@ -4,6 +4,7 @@ const axios = require('axios')
 const cors = require('cors')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const DMTable = require('./dbmodels/dmtable')
 const User = require('./dbmodels/user')
@@ -11,9 +12,11 @@ const uri = "mongodb+srv://colecathcart:W0fC4N4ig3x41CvI@cluster0.veinmfc.mongod
 const app = express();
 const port = process.env.PORT || 4000
 const SECRET = 'replacethiswitharealsecret'
+const CLIENT_URL = 'http://localhost:3000'
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({origin: CLIENT_URL, credentials: true}))
+app.use(cookieParser())
 
 async function connect() {
 	try {
@@ -27,18 +30,32 @@ async function connect() {
 }
 connect()
 
+app.get("/verify", (req, res)=>{
+	console.log(req.cookies)
+	const token = req.cookies.token
+	console.log("token to verify: " + token)
+	try {
+		const result = jwt.verify(token, SECRET)
+		console.log("verified " + result)
+		res.send(result)
+	} catch (err) {
+		res.send("Failed")
+	}
+})
+
 app.get("/login", (request, response)=>{
-	User.find({username: request.query.username})
+	User.find({username: request.headers.username})
 		.then((res) => {
 			if(res.length === 0){
 				response.send(res)
 			} else {
 				const user = res[0]
-				bcrypt.compare(request.query.password, user.password)
+				bcrypt.compare(request.headers.password, user.password)
 					.then((res) => {
 						if(res){
 							const token = jwt.sign(user.username, SECRET)
-							response.send([token])
+							response.cookie('token', token, {sameSite: 'strict', httpOnly: true})
+							response.send(['logged in'])
 						} else {
 							response.send([])
 						}
@@ -67,8 +84,7 @@ app.post("/create", (request, response)=>{
 						})
 						user.save()
 							.then((res) => {
-								const token = jwt.sign(res.username, SECRET)
-								response.send([token])
+								response.send(['account created'])
 							})
 							.catch((err) => {
 								console.error(err)
@@ -110,7 +126,7 @@ app.get("/gettables", (request, response) => {
 			response.send(res)
 		})
 		.catch((err) => {
-			console.log(err)
+			console.error(err)
 		})
 })
 
@@ -127,11 +143,11 @@ app.get("/add",(request, response)=>{
 				}
 			}
 		}
-		console.log(res.data)
+		//console.log(res.data)
 		return response.json(res.data)
 	})
 	.catch(function(error){
-		console.log(error)
+		console.error(error)
 	})
 })
 
@@ -139,10 +155,10 @@ app.get("/search",(request, response)=>{
 	const url = request.query.url
 	axios.get("https://www.dnd5eapi.co"+url)
 	.then((res)=>{
-		console.log(res.data)
+		//console.log(res.data)
 		return response.json(res.data)
 	})
 	.catch(function(error){
-		console.log(error)
+		console.error(error)
 	})
 })
