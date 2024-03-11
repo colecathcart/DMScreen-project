@@ -86,14 +86,17 @@ const Login = () => {
 	}
 
 	return (
-		<div>
-			<FaDiceD20 size={42}/>
-			<h1>DMScreen</h1>
+		<div className="loginbackground">
+			<div className="loginscreen">
+			<div>
+				<FaDiceD20 size={200}/>
+				<h1 className="logoname">DMScreen</h1>
+			</div>
 			{!showcreate ? 
-				<div>
+				<div className="form">
 					<h1>Login</h1>
-					<p>{error}</p>
-					<p>{success}</p>
+					<p className="errormsg">{error}</p>
+					<p className="successmsg">{success}</p>
 					<form onSubmit={login} onFocus={() => {setError(""); setSuccess("")}}>
 						<label>Username
 							<input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
@@ -102,25 +105,25 @@ const Login = () => {
 							<input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
 						</label>
 						<input type="submit"/>
+						<button onClick={() => setShowcreate(true)}>Create Account</button>
 					</form>
-					<button onClick={() => setShowcreate(true)}>Create Account</button>
 				</div>
 			: 
-			<div>
-			<h1>Create Account</h1>
-				<p>{newaccerror}</p>
-				<form onSubmit={createAccount} onFocus={() => {setNewaccerror("")}}>
-					<label>Username
-						<input type="text" value={newuname} onChange={(e) => setNewuname(e.target.value)}/>
-					</label>
-					<label>Password
-						<input type="password" value={newpword} onChange={(e) => setNewpword(e.target.value)}/>
-					</label>
-					<input type="submit"/>
-				</form>
-			</div>
+				<div className="form">
+				<h1>Create Account</h1>
+					<p className="errormsg">{newaccerror}</p>
+					<form onSubmit={createAccount} onFocus={() => {setNewaccerror("")}}>
+						<label>Username
+							<input type="text" value={newuname} onChange={(e) => setNewuname(e.target.value)}/>
+						</label>
+						<label>Password
+							<input type="password" value={newpword} onChange={(e) => setNewpword(e.target.value)}/>
+						</label>
+						<input type="submit"/>
+					</form>
+				</div>
 			}
-			<button onClick={handleNavigate} name="standin">screen</button>
+			</div>
 		</div>
 	)
 }

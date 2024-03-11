@@ -43,6 +43,11 @@ app.get("/verify", (req, res)=>{
 	}
 })
 
+app.get("/logout", (req, res)=>{
+	res.clearCookie('token', {sameSite: 'strict', httpOnly: true})
+	res.send("logged out")
+})
+
 app.get("/login", (request, response)=>{
 	User.find({username: request.headers.username})
 		.then((res) => {
@@ -100,34 +105,45 @@ app.post("/create", (request, response)=>{
 		})
 })
 
-app.get("/newtable",(request, response)=>{
-	const dmtable = new DMTable({
-		title : "Testable",
-		roll : "TRUE",
-		headers : ["d10","One","Two"],
-		rows : [
-			[[1,5], "r1c2", "The quick brown fox jumps over the lazy dog"],
-			[[6,9], "r2c2", "Once upon a time in a land far far away"],
-			[[10], "r3c2", "Rocks fall. Each party member takes 100d10 damage"]
-		]
-	})
-	dmtable.save()
-		.then((result) => {
-			response.send(result)
+app.post("/newtable",(request, response)=>{
+	console.log(request.cookies)
+	const token = request.cookies.token
+	console.log(request.body)
+	try {
+		const username = jwt.verify(token, SECRET)
+		const dmtable = new DMTable({
+			username: username,
+			title : request.body.title,
+			roll : request.body.roll,
+			headers : request.body.headers,
+			rows : request.body.rows
 		})
-		.catch((err) => {
-			console.error(err)
-		})
+		dmtable.save()
+			.then((result) => {
+				response.send(result)
+			})
+			.catch((err) => {
+				console.error(err)
+			})
+	} catch (err){
+		console.error(err)
+	}
 })
 
 app.get("/gettables", (request, response) => {
-	DMTable.find()
+	const token = request.cookies.token
+	try {
+		const username = jwt.verify(token, SECRET)
+		DMTable.find({username: username})
 		.then((res) => {
 			response.send(res)
 		})
 		.catch((err) => {
 			console.error(err)
 		})
+	} catch (err) {
+		console.error(err)
+	}
 })
 
 app.get("/add",(request, response)=>{

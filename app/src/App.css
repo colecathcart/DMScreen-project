@@ -17,12 +17,112 @@
   color: #61dafb;
 }
 
+.loginbackground {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(to bottom right, rgb(142, 129, 190), rgb(60, 140, 151));
+}
+
+.loginscreen {
+  height: 70vh;
+  width: 70%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20%;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.logoname {
+  font-size: 60px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.errormsg {
+  background-color: rgb(245, 136, 136);
+  border: 2px solid rgb(204, 97, 97);
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+}
+
+.successmsg {
+  background-color: rgb(96, 179, 93);
+  border: 2px solid rgb(46, 129, 29);
+  color: white;
+  border-radius: 5px;
+  padding: 5px
+}
+
+.errormsg:empty {
+  display: none;
+}
+
+.successmsg:empty {
+  display: none;
+}
+
+.form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form p, .form h1 {
+  margin: 0px;
+}
+
+.form form input, .form form button {
+  border: none;
+  background-color: rgb(238, 238, 238);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.form form input:hover, .form form button:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 14px 0 rgba(0, 0, 0, 0.19);
+}
+
+.form form input[type=text], .form form input[type=password] {
+  width: 170px;
+  margin-left: 10px;
+  border-radius: 10px;
+  box-shadow: none;
+  border: 2px solid rgb(207, 207, 207);
+}
+
+.form form input[type=text]:focus, .form form input[type=password]:focus {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  outline: none;
+}
+
 .header {
   display: flex;
   padding-left: 5px;
   flex-direction: row;
   align-items: center;
   height: 7vh;
+}
+
+.header div {
+  margin-left: auto;
+  margin-right: 10px;
+  display: flex;
+  gap: 10px;
+  padding-left: 10px;
 }
 
 .header h1 {

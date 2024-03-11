@@ -23,7 +23,7 @@ const Searchbar = ({settheRules}) => {
 				const condres = await axios.get("http://localhost:4000/search?url=/api/conditions")
 				const equipres = await axios.get("http://localhost:4000/search?url=/api/equipment")
 				const mitemres = await axios.get("http://localhost:4000/search?url=/api/magic-items")
-				const dmtableres = await axios.get("http://localhost:4000/gettables")
+				const dmtableres = await axios.get("http://localhost:4000/gettables", {withCredentials: true})
 				setTables(dmtableres.data)
                 setSpells(spellres.data.results)
 				setRules(gruleres.data.results.concat(condres.data.results))
@@ -80,7 +80,7 @@ const Searchbar = ({settheRules}) => {
 			<div className="searchbar">
 				<FaSearch/>
 				
-				<input placeholder="add a new item" value={input} onChange={e => handleSearch(e.target.value)}/>
+				<input placeholder="add a new item" value={input} onChange={e => handleSearch(e.target.value)} disabled={items ? false : true}/>
 			</div>
 			<table className="searchresults">
 				<tbody>

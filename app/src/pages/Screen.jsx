@@ -10,6 +10,8 @@ import Searchbar from "../components/Searchbar"
 import {FaCaretLeft, FaCaretRight} from "react-icons/fa6";
 import { FaDiceD20 } from "react-icons/fa";
 
+const API_URL = "http://localhost:4000/"
+
 const Screen = () => {
 
 	const [show1, setShow1] = useState(true)
@@ -29,9 +31,16 @@ const Screen = () => {
 
 	const navigate = useNavigate()
 
-	const handleNavigate = async e =>{
+	const handleLogout = async e =>{
 		e.preventDefault()
-		navigate("/")
+		axios.get(API_URL + "logout", {withCredentials: true})
+			.then(() => {
+				Cookies.remove("username", {sameSite: 'strict'})
+				navigate("/")
+			})
+			.catch((err) =>{
+				console.log(err)
+			})
 	}
 
 	const handleRemoveleft = (id) =>{
@@ -120,7 +129,11 @@ const Screen = () => {
 
 	const newdbtest = async (e) => {
 		try {
-			const res = await axios.get("http://localhost:4000/newtable")
+			await axios( API_URL + "newtable", {
+				method: "post",
+				withCredentials: true,
+				data: data
+			})
 		} catch (err){
 			console.log(err)
 		}
@@ -132,14 +145,16 @@ const Screen = () => {
 			<div className="header">
 				<FaDiceD20 size={42}/>
 				<h1>DMScreen</h1>
-				<p>{Cookies.get('username')}</p>
-				<button onClick={handleNavigate}>Logout</button>
+				<div>
+					<p>{Cookies.get('username')}</p>
+					<button onClick={handleLogout}>Logout</button>
+				</div>
 			</div>
 			<div className="mainArea">
 				{show1 ? 
 					<div className={show2 ? "tableArea" : "bigtableArea"}>
 						<Searchbar settheRules={ruleaddLeft}/>
-						{/*<button onClick={newdbtest}>click me</button>*/}
+						<button onClick={newdbtest}>click me</button>
 						{rulesleft.map((rule, id) => {
 							return componentMatcher(rule, handleRemoveleft, id)
 						})}
