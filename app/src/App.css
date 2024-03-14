@@ -382,9 +382,14 @@ iframe {
   padding: 2px 4px;
   margin-bottom: 0px;
   width: fit-content;
-  border-radius: 5px;
+  border-radius: 5px 0px 0px 5px;
   display: flex;
   align-items: center;
+}
+
+.searchheader {
+  display: flex;
+  width: fit-content
 }
 
 .searchbar input {
@@ -392,10 +397,37 @@ iframe {
   height: 25px;
   padding-left: 6px;
   font-size: .9rem;
+  width: 100%
+}
+
+.createbutton {
+  background-color: rgb(223, 223, 223);
+  border: none;
+  border-left: 2px solid rgb(179, 179, 179);
+  border-radius: 0px 5px 5px 0px;
+  width: fit-content
+}
+
+.createbutton:hover {
+  background-color: rgb(197, 197, 197);
 }
 
 .searchbar input:focus {
   outline: none;
+}
+
+.newitemform {
+  position: absolute;
+  background-color: white;
+}
+
+.newitem {
+  display: flex;
+  flex-direction: column;
+}
+
+.newitem input {
+  width: 10%;
 }
 
 .searchresults {

@@ -154,7 +154,6 @@ const Screen = () => {
 				{show1 ? 
 					<div className={show2 ? "tableArea" : "bigtableArea"}>
 						<Searchbar settheRules={ruleaddLeft}/>
-						<button onClick={newdbtest}>click me</button>
 						{rulesleft.map((rule, id) => {
 							return componentMatcher(rule, handleRemoveleft, id)
 						})}

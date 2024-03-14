@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import {FaSearch} from "react-icons/fa"
 import { FaGear } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa6";
+import NewItemForm from "./NewItemForm";
 import axios from 'axios'
 const Searchbar = ({settheRules}) => {
 
@@ -10,6 +11,7 @@ const Searchbar = ({settheRules}) => {
 	const [rules, setRules] = useState()
 	const [items, setItems] = useState()
 	const [tables, setTables] = useState()
+	const [newitemform, setNewitemform] = useState(false)
 	const [spellresults, setspellResults] = useState([])
 	const [itemresults, setitemResults] = useState([])
 	const [ruleresults, setruleResults] = useState([])
@@ -77,10 +79,13 @@ const Searchbar = ({settheRules}) => {
 
 	return (
 		<div>
-			<div className="searchbar">
-				<FaSearch/>
-				
-				<input placeholder="add a new item" value={input} onChange={e => handleSearch(e.target.value)} disabled={items ? false : true}/>
+			<div className="searchheader">
+				<div className="searchbar">
+					<FaSearch/>
+					
+					<input placeholder="search for an item" value={input} onChange={e => handleSearch(e.target.value)} disabled={items ? false : true}/>
+				</div>
+				<button className="createbutton" onClick={()=>setNewitemform(!newitemform)}>+ <i>create</i></button>
 			</div>
 			<table className="searchresults">
 				<tbody>
@@ -102,6 +107,9 @@ const Searchbar = ({settheRules}) => {
 					})}
 				</tbody>
 			</table>
+			{ newitemform ? 
+				<NewItemForm/>
+			: null}
 		</div>
 	)
 }
