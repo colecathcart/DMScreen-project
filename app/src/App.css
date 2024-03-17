@@ -416,19 +416,131 @@ iframe {
   outline: none;
 }
 
+.rollable {
+  display: flex;
+}
+
+.tooltip {
+  background-color: rgb(45, 45, 139);
+  width: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.tooltipdesc {
+  position: absolute;
+  background-color: white;
+  margin-left: 150px;
+  width: 200px;
+  padding: 3px;
+  font-size: smaller;
+  text-align: left;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
 .newitemform {
   position: absolute;
   background-color: white;
+  width: fit-content;
+  min-width: 400px;
+  max-height: 80vh;
+  padding: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  overflow-x: visible;
+  overflow-y: scroll;
+}
+
+.newitemform button {
+  border: none;
+  background-color: rgb(236, 236, 236);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.newitemform button:hover {
+  background-color: rgb(180, 180, 180);
+}
+
+.titlelabel {
+  display: flex;
+  gap: 27px;
 }
 
 .newitem {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
 }
 
-.newitem input {
-  width: 10%;
+.newitem label {
+  margin-right: 5px;
 }
+
+.newitem textarea {
+  margin: 1px;
+}
+
+.itemdesc {
+  width: 40vw;
+  height: 70px;
+}
+
+.coldiv textarea {
+  width: 10vw;
+  height: 2ch;
+  resize: none;
+}
+
+.rowdiv textarea {
+  width: 10vw;
+  resize: vertical;
+  height: 100%;
+}
+
+.rowdiv {
+  display: flex;
+}
+
+.coldiv {
+  display: flex;
+}
+
+.coldiv button {
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-left: 3px
+}
+
+.colwithbtn {
+  display: flex;
+}
+
+.rowdiv label {
+  padding-right: 20px;
+}
+
+.rowbtns {
+  margin: auto;
+  display: flex;
+  gap: 3px;
+}
+
+.rowbtns button {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.itemsubmitbtns {
+  width: 100%;
+  display: flex;
+  gap: 3px;
+}
+
+.subbtn{
+  margin-left: auto;
+}
+
 
 .searchresults {
   width: 100%;

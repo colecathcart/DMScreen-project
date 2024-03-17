@@ -5,6 +5,7 @@ const NewItemForm = () => {
 	const [showcard, setShowcard] = useState(true)
 	const [error, setError] = useState("")
 	const [maxrows, setMaxrows] = useState(30)
+	const [tooltip, setTooltip] = useState(false)
 	const [dmtable, setDmtable]  =useState({
 		title: "",
 		roll: "FALSE",
@@ -14,6 +15,7 @@ const NewItemForm = () => {
 
 	useEffect(()=>{
 		if(dmtable.roll === "TRUE"){
+			console.log("here")
 			fillRollColumn(parseInt(dmtable.headers[0].substring(1)))
 		}
 	},[dmtable.rows])
@@ -29,6 +31,34 @@ const NewItemForm = () => {
 			headers: [...dmtable.headers,""],
 			rows: newrows
 		})
+	}
+
+	const deleteColumn = (e) =>{
+		e.preventDefault()
+		let newrows = dmtable.rows
+		let newheaders = dmtable.headers
+		newheaders.pop()
+		newrows.forEach(row => {
+			row.pop()
+		})
+		setDmtable({
+			...dmtable,
+			headers: newheaders,
+			rows: newrows
+		})
+	}
+
+	const deleteRow = (e) =>{
+		e.preventDefault()
+		let newrows = dmtable.rows
+		newrows.pop()
+		setDmtable({
+			...dmtable,
+			rows: newrows
+		})
+		if(dmtable.roll === "TRUE"){
+			fillRollColumn(parseInt(dmtable.headers[0].substring(1)))
+		}
 	}
 
 	const addNewrow = (e) =>{
@@ -107,65 +137,85 @@ const NewItemForm = () => {
 			{showcard ? 
 				<form className="newitem">
 					<p>{error}</p>
-					<label>Name
-						<input type="text" placeholder="max 30 characters"></input>
-					</label>
-					<label>Description
-						<textarea placeholder=""></textarea>
-					</label>
+					<label>Name</label>
+					<input type="text" placeholder="max 30 characters"></input>
+					<label>Description</label>
+					<textarea className="itemdesc" placeholder=""></textarea>
+					<div className="itemsubmitbtns">
+						<button className="subbtn">Submit</button>
+						<button>X</button>
+					</div>
 				</form>
 			:
 				<form className="newitem">
-					<label>Title
+					<div className="titlelabel">
+						<label>Title</label>
 						<input type="text" placeholder="max 30 characters"></input>
-					</label>
-					<label>Rollable?
-						<select value={dmtable.headers[0]} onChange={(e)=>handleRollinfo(e.target.value)}>
-							<option value ="">No</option>
-							<option value ="d2">d2</option>
-							<option value="d4">d4</option>
-							<option value="d6">d6</option>
-							<option value="d8">d8</option>
-							<option value="d10">d10</option>
-							<option value="d12">d12</option>
-							<option value="d20">d20</option>
-							<option value="d100">d100</option>
-						</select>
-					</label>
-					<label>Headers
-						{dmtable.headers.map((header, id)=>{
-							return <input value={header} disabled={id === 0 && dmtable.roll === "TRUE"} onChange={(e)=>setDmtable({
-								...dmtable, headers: dmtable.headers.map((item,i)=>{
-									return i ===id ? e.target.value : item})
-								})
-							}></input>
-						})}
-						<button onClick={addNewcolumn} disabled={dmtable.headers.length > 4}>+</button>
-					</label>
-					<label>Rows
-						{false ? <span>When table is rollable, the entire first column must contain 
-							the spread of rolls from 1 to the maximum of the chosen die. If one row corresponds to a range of values,
-							they must be inputted as 'n-m'. Duplicate numbers and numbers outside the die's range 
-							are not allowed in this column.</span> : null}
-						{dmtable.rows.map((row, idi)=>{
-							return(
-								<div>
-									{row.map((item, idj)=>{
-										return <input value={item} placeholder={dmtable.roll === "TRUE" && idj === 0 ? "n-m" : ""} onChange={(e)=>{
-											setDmtable({
-												...dmtable, rows: dmtable.rows.map((row,i)=>{
-													return i === idi ? row.map((cell,j)=>{
-														return j === idj ? e.target.value : cell
-													}) : row
-												})
-											})
-										}}></input>
-									})}
-								</div>
-							)
-						})}
+					</div>
+					<div className="rollable">
+						<label>Rollable?
+							<select value={dmtable.headers[0]} onChange={(e)=>handleRollinfo(e.target.value)}>
+								<option value ="">No</option>
+								<option value ="d2">d2</option>
+								<option value="d4">d4</option>
+								<option value="d6">d6</option>
+								<option value="d8">d8</option>
+								<option value="d10">d10</option>
+								<option value="d12">d12</option>
+								<option value="d20">d20</option>
+								<option value="d100">d100</option>
+							</select>
+						</label>
+						<div className="tooltip" onMouseOver={()=>setTooltip(true)} onMouseOut={()=>setTooltip(false)}>?</div>
+						{tooltip ? <span className="tooltipdesc">When table is rollable, the entire first column must contain 
+								the spread of rolls from 1 to the maximum of the chosen die. If one row corresponds to a range of values,
+								they must be inputted as 'n-m'. Duplicate numbers and numbers outside the die's range 
+								are not allowed in this column.</span> : null}
+					</div>
+					<div className="coldiv">
+						<label className="headers">Headers</label>
+						<div className="colwithbtn">
+							{dmtable.headers.map((header, id)=>{
+								return <textarea value={header} disabled={id === 0 && dmtable.roll === "TRUE"} onChange={(e)=>setDmtable({
+									...dmtable, headers: dmtable.headers.map((item,i)=>{
+										return i ===id ? e.target.value : item})
+									})
+								}></textarea>
+							})}
+							<button onClick={addNewcolumn} disabled={dmtable.headers.length > 4}>+</button>
+							<button onClick={deleteColumn} disabled={dmtable.headers.length < 2}>-</button>
+						</div>
+					</div>
+					<div className="rowdiv">
+						<label>Rows</label>
+							<div>
+								{dmtable.rows.map((row, idi)=>{
+									return(
+										<div>
+											{row.map((item, idj)=>{
+												return <textarea value={item} placeholder={dmtable.roll === "TRUE" && idj === 0 ? "n-m" : ""} onChange={(e)=>{
+													setDmtable({
+														...dmtable, rows: dmtable.rows.map((row,i)=>{
+															return i === idi ? row.map((cell,j)=>{
+																return j === idj ? e.target.value : cell
+															}) : row
+														})
+													})
+												}}></textarea>
+											})}
+										</div>
+									)
+								})}
+							</div>
+					</div>
+					<div className="rowbtns">
 						<button onClick={addNewrow} disabled={dmtable.rows.length === maxrows}>+</button>
-					</label>
+						<button onClick={deleteRow} disabled={dmtable.rows.length < 2}>-</button>
+					</div>
+					<div className="itemsubmitbtns">
+						<button className="subbtn">Submit</button>
+						<button>X</button>
+					</div>
 				</form>
 			}
 		</div>
