@@ -108,7 +108,7 @@ const Searchbar = ({settheRules}) => {
 				</tbody>
 			</table>
 			{ newitemform ? 
-				<NewItemForm/>
+				<NewItemForm setVis = {setNewitemform}/>
 			: null}
 		</div>
 	)

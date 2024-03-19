@@ -1,16 +1,22 @@
 import React, {useEffect, useState} from "react"
 
-const NewItemForm = () => {
+const NewItemForm = ({setVis}) => {
 
 	const [showcard, setShowcard] = useState(true)
 	const [error, setError] = useState("")
 	const [maxrows, setMaxrows] = useState(30)
 	const [tooltip, setTooltip] = useState(false)
-	const [dmtable, setDmtable]  =useState({
+	const [autofill, setAutofill] = useState(false)
+	const [dmtable, setDmtable]  = useState({
 		title: "",
 		roll: "FALSE",
 		headers: [""],
 		rows: [[""]]
+	})
+
+	const [card, setCard] = useState({
+		name: "",
+		desc: ""
 	})
 
 	useEffect(()=>{
@@ -18,7 +24,17 @@ const NewItemForm = () => {
 			console.log("here")
 			fillRollColumn(parseInt(dmtable.headers[0].substring(1)))
 		}
-	},[dmtable.rows])
+	},[dmtable.rows.length])
+
+	useEffect(()=>{
+		setError("")
+		setDmtable({
+			title: "",
+			roll: "FALSE",
+			headers: [""],
+			rows: [[""]]
+		})
+	},[showcard])
 
 	const addNewcolumn = (e) =>{
 		e.preventDefault()
@@ -102,6 +118,9 @@ const NewItemForm = () => {
 	}
 
 	const fillRollColumn = (num) =>{
+		if(!autofill){
+			return
+		}
 		const numsperrow = Math.floor(num / dmtable.rows.length)
 		const newrows = dmtable.rows
 		let count = 1
@@ -114,7 +133,7 @@ const NewItemForm = () => {
 			count += numsperrow
 		}
 		if(count === num){
-			newrows[newrows.length - 1][0] = count
+			newrows[newrows.length - 1][0] = count.toString()
 		} else {
 			newrows[newrows.length - 1][0] = count.toString() + "-" + num.toString()
 		}
@@ -122,6 +141,117 @@ const NewItemForm = () => {
 			...dmtable,
 			rows: newrows
 		})
+	}
+
+	const handleClose = (e) => {
+		e.preventDefault()
+		setVis(false)
+	}
+
+	const handleCardSubmit = (e) => {
+		e.preventDefault()
+		const cardname = card.name.trim()
+		const carddesc = card.desc.trim()
+		if(cardname.length > 30){
+			setError("Name cannot exceed 30 characters!")
+			setCard({
+				...card,
+				name: ""
+			})
+		} else if(cardname.length < 1 || carddesc.length < 1){
+			setError("Fields cannot be blank!")
+		} else {
+			setError("")
+		}
+	}
+
+	const handleTableSubmit = (e) => {
+		e.preventDefault()
+		console.log(dmtable)
+		const dmt = JSON.parse(JSON.stringify(dmtable))
+		dmt.title.trim()
+		let nooverflow = true
+		let noblanks = true
+		dmt.headers.forEach(header => {
+			header.trim()
+			if(header.length < 1){
+				noblanks = false
+			}
+			if(header.length > 30){
+				nooverflow = false
+			}
+		})
+		if(!nooverflow){
+			setError("Headers cannot exceed 30 characters!")
+			return
+		}
+		dmt.rows.forEach((row)=>{
+			row.forEach((element)=>{
+				console.log(typeof(element))
+				console.log(element)
+				element.trim()
+				if(element.length < 1){
+					noblanks = false
+				}
+			})
+		})
+		if(!noblanks) {
+			setError("Fields cannot be blank!")
+			return
+		}
+		if(dmt.title.length > 30){
+			setError("Title cannot exceed 30 characters!")
+			return
+		}
+		if(dmt.title.length < 1){
+			setError("Fields cannot be blank!")
+			return
+		}
+		if(dmt.roll === "TRUE"){
+			let sumofrolls = 0
+			for(let i = 0; i < dmt.rows.length; i++){
+				let row = dmt.rows[i]
+				let check1 = row[0].match(/^[0-9]+-[0-9]+$/)
+				let check2 = row[0].match(/^\d+$/)
+				console.log(check1)
+				console.log(check2)
+				if(!check1 && !check2){
+					if(!check2)
+					setError("Roll column has bad values! Ensure all entries are digits formatted as 'n' or 'n-m'")
+					return
+				}
+				if(check1){
+					let strarr = check1[0].split("-")
+					let numarr = []
+					strarr.forEach((str)=>{numarr.push(parseInt(str))})
+					row[0] = numarr
+					if(row[0][0] === 0 || row[0][1] === 0){
+						setError("Roll column cannot contain zeroes!")
+						return
+					}
+					let startroll = row[0][0]
+					console.log(startroll)
+					console.log(typeof(row[0][1]))
+					while(startroll <= row[0][1]){
+						sumofrolls += startroll
+						startroll += 1
+					}
+				}else if(check2){
+					row[0] = [parseInt(check2[0])]
+					if(row[0][0] === 0){
+						setError("Roll column cannot contain zeroes!")
+						return
+					}
+					sumofrolls += row[0][0]
+				}
+			}
+			let dicenum = parseInt(dmt.headers[0].substring(1))
+			if(sumofrolls !== (dicenum*(dicenum + 1))/2){
+				setError("Roll column does not contain a valid spread of rolls! Ensure no duplicate or out-of-bounds numbers")
+				return
+			}
+		}
+		setError("")
 	}
 
 	return (
@@ -136,21 +266,22 @@ const NewItemForm = () => {
 			</form>
 			{showcard ? 
 				<form className="newitem">
-					<p>{error}</p>
+					<p className="errormsg">{error}</p>
 					<label>Name</label>
-					<input type="text" placeholder="max 30 characters"></input>
+					<input type="text" placeholder="max 30 characters" value={card.name} onChange={(e)=>setCard({...card, name: e.target.value})}></input>
 					<label>Description</label>
-					<textarea className="itemdesc" placeholder=""></textarea>
+					<textarea className="itemdesc" placeholder="" value={card.desc} onChange={(e)=>setCard({...card, desc: e.target.value})}></textarea>
 					<div className="itemsubmitbtns">
-						<button className="subbtn">Submit</button>
-						<button>X</button>
+						<button className="subbtn" onClick={handleCardSubmit}>Submit</button>
+						<button onClick={handleClose}>X</button>
 					</div>
 				</form>
 			:
 				<form className="newitem">
+					<p className="errormsg">{error}</p>
 					<div className="titlelabel">
 						<label>Title</label>
-						<input type="text" placeholder="max 30 characters"></input>
+						<input type="text" placeholder="max 30 characters" value={dmtable.title} onChange={(e)=>setDmtable({...dmtable, title: e.target.value})}></input>
 					</div>
 					<div className="rollable">
 						<label>Rollable?
@@ -170,7 +301,10 @@ const NewItemForm = () => {
 						{tooltip ? <span className="tooltipdesc">When table is rollable, the entire first column must contain 
 								the spread of rolls from 1 to the maximum of the chosen die. If one row corresponds to a range of values,
 								they must be inputted as 'n-m'. Duplicate numbers and numbers outside the die's range 
-								are not allowed in this column.</span> : null}
+								are not allowed in this column.</span> : null
+						}
+						<input type="checkbox" value={autofill} onChange={(e)=>setAutofill(e.target.value)}></input>
+						<label className="checklabel">auto-fill roll column</label>
 					</div>
 					<div className="coldiv">
 						<label className="headers">Headers</label>
@@ -196,9 +330,10 @@ const NewItemForm = () => {
 												return <textarea value={item} placeholder={dmtable.roll === "TRUE" && idj === 0 ? "n-m" : ""} onChange={(e)=>{
 													setDmtable({
 														...dmtable, rows: dmtable.rows.map((row,i)=>{
-															return i === idi ? row.map((cell,j)=>{
-																return j === idj ? e.target.value : cell
-															}) : row
+															if(i === idi){
+																row[idj] = e.target.value.toString()
+															}
+															return row
 														})
 													})
 												}}></textarea>
@@ -213,8 +348,8 @@ const NewItemForm = () => {
 						<button onClick={deleteRow} disabled={dmtable.rows.length < 2}>-</button>
 					</div>
 					<div className="itemsubmitbtns">
-						<button className="subbtn">Submit</button>
-						<button>X</button>
+						<button className="subbtn" onClick={handleTableSubmit}>Submit</button>
+						<button onClick={handleClose}>X</button>
 					</div>
 				</form>
 			}

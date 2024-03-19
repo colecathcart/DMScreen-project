@@ -56,6 +56,8 @@
   border-radius: 5px;
   padding: 5px;
   color: white;
+  max-width: 400px;
+  margin: auto;
 }
 
 .successmsg {
@@ -425,6 +427,7 @@ iframe {
   width: 20px;
   border-radius: 10px;
   color: white;
+  margin-right: 5px;
 }
 
 .tooltipdesc {
@@ -432,10 +435,11 @@ iframe {
   background-color: white;
   margin-left: 150px;
   width: 200px;
-  padding: 3px;
+  padding: 5px;
   font-size: smaller;
   text-align: left;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 5px;
 }
 
 .newitemform {
@@ -537,10 +541,14 @@ iframe {
   gap: 3px;
 }
 
-.subbtn{
+.subbtn {
   margin-left: auto;
 }
 
+.checklabel {
+  font-size: small;
+  align-self: center;
+}
 
 .searchresults {
   width: 100%;
