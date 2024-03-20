@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const DMTable = require('./dbmodels/dmtable')
+const DMCard = require('./dbmodels/dmcard')
 const User = require('./dbmodels/user')
 const uri = "mongodb+srv://colecathcart:W0fC4N4ig3x41CvI@cluster0.veinmfc.mongodb.net/DMScreen?retryWrites=true&w=majority"
 const app = express();
@@ -112,7 +113,7 @@ app.post("/newtable",(request, response)=>{
 	try {
 		const username = jwt.verify(token, SECRET)
 		const dmtable = new DMTable({
-			username: username,
+			username : username,
 			title : request.body.title,
 			roll : request.body.roll,
 			headers : request.body.headers,
@@ -130,11 +131,48 @@ app.post("/newtable",(request, response)=>{
 	}
 })
 
+app.post("/newcard", (request, response)=>{
+	const token = request.cookies.token
+	try {
+		const username = jwt.verify(token, SECRET)
+		const dmcard = new DMCard({
+			username : username,
+			title : request.body.title,
+			description : request.body.description
+		})
+		dmcard.save()
+			.then((result) => {
+				response.send(result)
+			})
+			.catch((err) => {
+				console.error(err)
+			})
+	} catch (err){
+		console.error(err)
+	}
+})
+
 app.get("/gettables", (request, response) => {
 	const token = request.cookies.token
 	try {
 		const username = jwt.verify(token, SECRET)
 		DMTable.find({username: username})
+		.then((res) => {
+			response.send(res)
+		})
+		.catch((err) => {
+			console.error(err)
+		})
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+app.get("/getcards", (request, response) => {
+	const token = request.cookies.token
+	try {
+		const username = jwt.verify(token, SECRET)
+		DMCard.find({username: username})
 		.then((res) => {
 			response.send(res)
 		})

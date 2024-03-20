@@ -6,6 +6,7 @@ import DMTable from "../components/DMTable"
 import DMSpell from "../components/DMSpell"
 import DMRule from "../components/DMRule"
 import DMItem from "../components/DMItem"
+import DMCard from "../components/DMCard"
 import Searchbar from "../components/Searchbar"
 import {FaCaretLeft, FaCaretRight} from "react-icons/fa6";
 import { FaDiceD20 } from "react-icons/fa";
@@ -116,7 +117,7 @@ const Screen = () => {
 
 	const componentMatcher = (rule, remover, id) => {
 		if(rule.rule.title){
-			return <DMTable tableData={rule}/>
+			return rule.rule.headers ? <DMTable tableData={rule}/> : <DMCard data={rule} handleRemove={remover} index={id}/>
 		}else if(rule.rule.url.match("/api/spells")){
 			return <DMSpell data={rule} handleRemove={remover} index={id}/>
 		} else if(rule.rule.url.match("/api/equipment") || rule.rule.url.match("/api/magic-items")){
@@ -125,19 +126,6 @@ const Screen = () => {
 			return <DMRule data={rule} handleRemove={remover} index={id}/>
 		}
 		
-	}
-
-	const newdbtest = async (e) => {
-		try {
-			await axios( API_URL + "newtable", {
-				method: "post",
-				withCredentials: true,
-				data: data
-			})
-		} catch (err){
-			console.log(err)
-		}
-			
 	}
 
 	return (

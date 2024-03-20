@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from "react"
+import axios from 'axios'
 
-const NewItemForm = ({setVis}) => {
+const API_URL = "http://localhost:4000/"
+
+const NewItemForm = ({setVis, getResults}) => {
 
 	const [showcard, setShowcard] = useState(true)
 	const [error, setError] = useState("")
@@ -13,7 +16,6 @@ const NewItemForm = ({setVis}) => {
 		headers: [""],
 		rows: [[""]]
 	})
-
 	const [card, setCard] = useState({
 		name: "",
 		desc: ""
@@ -148,7 +150,7 @@ const NewItemForm = ({setVis}) => {
 		setVis(false)
 	}
 
-	const handleCardSubmit = (e) => {
+	const handleCardSubmit = async (e) => {
 		e.preventDefault()
 		const cardname = card.name.trim()
 		const carddesc = card.desc.trim()
@@ -162,18 +164,33 @@ const NewItemForm = ({setVis}) => {
 			setError("Fields cannot be blank!")
 		} else {
 			setError("")
+			const newcard = {
+				name: cardname,
+				desc: carddesc
+			}
+			try {
+				await axios( API_URL + "newcard", {
+					method: "post",
+					withCredentials: true,
+					data: newcard
+				})
+			} catch (err){
+				console.log(err)
+			}
+			getResults()	
+			setVis(false)
 		}
 	}
 
-	const handleTableSubmit = (e) => {
+	const handleTableSubmit = async (e) => {
 		e.preventDefault()
 		console.log(dmtable)
 		const dmt = JSON.parse(JSON.stringify(dmtable))
-		dmt.title.trim()
+		dmt.title = dmt.title.trim()
 		let nooverflow = true
 		let noblanks = true
 		dmt.headers.forEach(header => {
-			header.trim()
+			header = header.trim()
 			if(header.length < 1){
 				noblanks = false
 			}
@@ -189,7 +206,7 @@ const NewItemForm = ({setVis}) => {
 			row.forEach((element)=>{
 				console.log(typeof(element))
 				console.log(element)
-				element.trim()
+				element = element.trim()
 				if(element.length < 1){
 					noblanks = false
 				}
@@ -211,8 +228,8 @@ const NewItemForm = ({setVis}) => {
 			let sumofrolls = 0
 			for(let i = 0; i < dmt.rows.length; i++){
 				let row = dmt.rows[i]
-				let check1 = row[0].match(/^[0-9]+-[0-9]+$/)
-				let check2 = row[0].match(/^\d+$/)
+				let check1 = row[0].trim().match(/^[0-9]+-[0-9]+$/)
+				let check2 = row[0].trim().match(/^\d+$/)
 				console.log(check1)
 				console.log(check2)
 				if(!check1 && !check2){
@@ -252,6 +269,18 @@ const NewItemForm = ({setVis}) => {
 			}
 		}
 		setError("")
+		console.log(dmt)
+		try {
+			await axios( API_URL + "newtable", {
+				method: "post",
+				withCredentials: true,
+				data: dmt
+			})
+		} catch (err){
+			console.log(err)
+		}
+		getResults()
+		setVis(false)
 	}
 
 	return (
@@ -310,7 +339,7 @@ const NewItemForm = ({setVis}) => {
 						<label className="headers">Headers</label>
 						<div className="colwithbtn">
 							{dmtable.headers.map((header, id)=>{
-								return <textarea value={header} disabled={id === 0 && dmtable.roll === "TRUE"} onChange={(e)=>setDmtable({
+								return <textarea className="headertext" wrap="off" value={header} placeholder={"max 30 characters"} disabled={id === 0 && dmtable.roll === "TRUE"} onChange={(e)=>setDmtable({
 									...dmtable, headers: dmtable.headers.map((item,i)=>{
 										return i ===id ? e.target.value : item})
 									})

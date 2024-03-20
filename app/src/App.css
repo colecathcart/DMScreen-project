@@ -422,6 +422,11 @@ iframe {
   display: flex;
 }
 
+.headertext {
+  font-size: small;
+  overflow: hidden;
+}
+
 .tooltip {
   background-color: rgb(45, 45, 139);
   width: 20px;

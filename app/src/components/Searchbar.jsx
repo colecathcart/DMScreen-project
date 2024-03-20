@@ -17,23 +17,25 @@ const Searchbar = ({settheRules}) => {
 	const [ruleresults, setruleResults] = useState([])
 	const [tableresults, settableResults] = useState([])
 
+	const FetchAllResults = async ()=>{
+		try {
+			const spellres = await axios.get("http://localhost:4000/search?url=/api/spells")
+			const gruleres = await axios.get("http://localhost:4000/search?url=/api/rule-sections")
+			const condres = await axios.get("http://localhost:4000/search?url=/api/conditions")
+			const equipres = await axios.get("http://localhost:4000/search?url=/api/equipment")
+			const mitemres = await axios.get("http://localhost:4000/search?url=/api/magic-items")
+			const dmtableres = await axios.get("http://localhost:4000/gettables", {withCredentials: true})
+			const dmcardres = await axios.get("http://localhost:4000/getcards", {withCredentials: true})
+			setTables(dmtableres.data.concat(dmcardres.data))
+			setSpells(spellres.data.results)
+			setRules(gruleres.data.results.concat(condres.data.results))
+			setItems(equipres.data.results.concat(mitemres.data.results))
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	useEffect(()=>{
-        const FetchAllResults = async ()=>{
-            try {
-                const spellres = await axios.get("http://localhost:4000/search?url=/api/spells")
-				const gruleres = await axios.get("http://localhost:4000/search?url=/api/rule-sections")
-				const condres = await axios.get("http://localhost:4000/search?url=/api/conditions")
-				const equipres = await axios.get("http://localhost:4000/search?url=/api/equipment")
-				const mitemres = await axios.get("http://localhost:4000/search?url=/api/magic-items")
-				const dmtableres = await axios.get("http://localhost:4000/gettables", {withCredentials: true})
-				setTables(dmtableres.data)
-                setSpells(spellres.data.results)
-				setRules(gruleres.data.results.concat(condres.data.results))
-				setItems(equipres.data.results.concat(mitemres.data.results))
-            } catch (error) {
-                console.log(error)
-            }
-        }
         FetchAllResults()
     },[])
 
@@ -101,14 +103,14 @@ const Searchbar = ({settheRules}) => {
 					{ruleresults.map((result, id) => {
 						return <tr className="searchresult"><button key={id} onClick={() => handleRuleAdd(result)}>{result.name}</button></tr>
 					})}
-					{tableresults.length ? <th className="searchresult">Your Tables</th> : null}
+					{tableresults.length ? <th className="searchresult">Your Tables & Cards</th> : null}
 					{tableresults.map((result, id) => {
 						return <tr className="searchresult"><button key={id} onClick={() => handleRuleAdd(result)}>{result.title}</button><button className="editbtn"><FaGear/></button><button className="editbtn"><FaTrash/></button></tr>
 					})}
 				</tbody>
 			</table>
 			{ newitemform ? 
-				<NewItemForm setVis = {setNewitemform}/>
+				<NewItemForm setVis = {setNewitemform} getResults = {FetchAllResults}/>
 			: null}
 		</div>
 	)
