@@ -165,7 +165,7 @@ const NewItemForm = ({setVis, getResults}) => {
 		} else {
 			setError("")
 			const newcard = {
-				name: cardname,
+				title: cardname,
 				desc: carddesc
 			}
 			try {

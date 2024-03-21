@@ -133,12 +133,13 @@ app.post("/newtable",(request, response)=>{
 
 app.post("/newcard", (request, response)=>{
 	const token = request.cookies.token
+	console.log(request.body)
 	try {
 		const username = jwt.verify(token, SECRET)
 		const dmcard = new DMCard({
 			username : username,
 			title : request.body.title,
-			description : request.body.description
+			description : request.body.desc
 		})
 		dmcard.save()
 			.then((result) => {

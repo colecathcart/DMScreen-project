@@ -149,6 +149,11 @@
   margin: 0px;
 }
 
+.dmbasictable button {
+  padding: 5px;
+  border-radius: 5px;
+}
+
 .tableContainer {
   background-color: rgb(204, 118, 118);
   border-radius: 5px;

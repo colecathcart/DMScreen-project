@@ -2,10 +2,9 @@ import React, {useState} from "react"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-const DMRule = ({data, handleRemove, index}) => {
-
-	const card = data.card
-	const key = data.thekey
+const DMCard = ({data: {rule, thekey}, handleRemove, index}) => {
+	const card = rule
+	const key = thekey
 
 	const [vis, setVis] = useState(true)
 
@@ -32,4 +31,4 @@ const DMRule = ({data, handleRemove, index}) => {
 	)
 }
 
-export default DMRule
+export default DMCard
