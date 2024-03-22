@@ -220,9 +220,123 @@
   margin: 3px;
 }
 
+.diceroller {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+}
+
+.rollmenu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: x-large;
+}
+
+.rollmenu input {
+  width: 50px;
+  font-size: x-large;
+  padding: 5px;
+  border: none;
+  background-color: rgb(238, 238, 238);
+  border-radius: 5px;
+}
+
+.rollmenu p {
+  margin: 0px;
+}
+
+.rollmenu select {
+  font-size: x-large;
+  border: none;
+  background-color: rgb(238,238,238);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.rollmenu button:hover {
+  background-color: rgb(214, 214, 214);
+}
+
+.dicerollbtn {
+  font-size: x-large;
+  padding: 5px;
+  border: 2px solid rgb(187, 187, 187);
+  border-radius: 5px;
+}
+
+.plusbtn {
+  width: 40px;
+  height: 40px;
+  font-size: x-large;
+  border: 2px solid rgb(187, 187, 187);
+  border-radius: 5px;
+}
+
+.dicebox {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dicebox div {
+  height: 100px;
+  width: 100px;
+  margin-left: 5px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: xx-large;
+  color: white;
+  background-repeat: no-repeat;
+  /*animation: rotation .4s infinite linear;*/
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.d4 {
+  background-image: url("./images/d4.png");
+}
+
+.d6 {
+  background-image: url("./images/d6.png");
+}
+
+.d8 {
+  background-image: url("./images/d8.png");
+}
+
+.d10 {
+  background-image: url("./images/d10.png");
+}
+
+.d12 {
+  background-image: url("./images/d12.png");
+}
+
+.d20 {
+  background-image: url("./images/d20.png");
+}
+
+.d100 {
+  background-image: url("./images/d100.png");
+}
+
 iframe {
   width: 100%;
-  resize: both;
   overflow: auto;
   height: 89vh
 }
@@ -230,7 +344,6 @@ iframe {
 .iframediv {
   max-width: 900px;
   width: 100%;
-  height: 100%;
 }
 
 .tableArea {

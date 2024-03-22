@@ -9,6 +9,7 @@
     "axios": "^1.5.1",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
+    "react-awesome-shapes": "^0.1.12",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-markdown": "^9.0.1",

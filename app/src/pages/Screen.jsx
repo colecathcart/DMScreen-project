@@ -7,6 +7,7 @@ import DMSpell from "../components/DMSpell"
 import DMRule from "../components/DMRule"
 import DMItem from "../components/DMItem"
 import DMCard from "../components/DMCard"
+import Diceroller from "../components/Diceroller"
 import Searchbar from "../components/Searchbar"
 import {FaCaretLeft, FaCaretRight} from "react-icons/fa6";
 import { FaDiceD20 } from "react-icons/fa";
@@ -172,7 +173,10 @@ const Screen = () => {
 						<button className="tabadd" onClick={() => setNewTabScreen(true)}><b>+</b></button>
 					</div>
 					{tabs.map((tab, id) => {
-						return <iframe src={tab.url} title={tab.name} style={tab.name === pagetab.name ? {display: 'block'} : {display: 'none'}}></iframe>
+						return tab.id === -1 ? 
+							<Diceroller style={tab.name === pagetab.name ? {display: 'flex'} : {display: 'none'}}/>
+						: 
+							<iframe src={tab.url} title={tab.name} style={tab.name === pagetab.name ? {display: 'block'} : {display: 'none'}}></iframe>
 					})}
 					
 				</div>
