@@ -4,6 +4,9 @@ import { FaGear } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa6";
 import NewItemForm from "./NewItemForm";
 import axios from 'axios'
+
+const API_URL = "http://localhost:4000/"
+
 const Searchbar = ({settheRules}) => {
 
 	const [input, setInput] = useState("")
@@ -16,6 +19,7 @@ const Searchbar = ({settheRules}) => {
 	const [itemresults, setitemResults] = useState([])
 	const [ruleresults, setruleResults] = useState([])
 	const [tableresults, settableResults] = useState([])
+	const [toedit, setToEdit] = useState()
 
 	const FetchAllResults = async ()=>{
 		try {
@@ -38,6 +42,17 @@ const Searchbar = ({settheRules}) => {
 	useEffect(()=>{
         FetchAllResults()
     },[])
+
+	useEffect(()=>{
+		if(toedit){
+			setNewitemform(true)
+			setInput("")
+			setspellResults([])
+			setruleResults([])
+			setitemResults([])
+			settableResults([])
+		}
+	},[toedit])
 
 	const handleSearch = (value) => {
 		setInput(value)
@@ -68,7 +83,6 @@ const Searchbar = ({settheRules}) => {
 			setitemResults([])
 			settableResults([])
 			if(rule.title){
-				console.log("HEYEYEYEY")
 				settheRules(rule)
 			} else {
 				const res = await axios.get("http://localhost:4000/add?url="+rule.url)
@@ -77,6 +91,32 @@ const Searchbar = ({settheRules}) => {
 		} catch (error) {
 			console.log(error)
 		}
+	}
+
+	const handleDelete = async (rule) => {
+		if(rule.roll){
+			await axios(API_URL + "deletetable", {
+				method: "delete",
+				withCredentials: true,
+				headers: {
+					_id: rule._id
+				}
+			})
+		} else {
+			await axios(API_URL + "deletecard", {
+				method: "delete",
+				withCredentials: true,
+				headers: {
+					_id: rule._id
+				}
+			})
+		}
+		setInput("")
+		setspellResults([])
+		setruleResults([])
+		setitemResults([])
+		settableResults([])
+		FetchAllResults()
 	}
 
 	return (
@@ -105,12 +145,12 @@ const Searchbar = ({settheRules}) => {
 					})}
 					{tableresults.length ? <th className="searchresult">Your Tables & Cards</th> : null}
 					{tableresults.map((result, id) => {
-						return <tr className="searchresult"><button key={id} onClick={() => handleRuleAdd(result)}>{result.title}</button><button className="editbtn"><FaGear/></button><button className="editbtn"><FaTrash/></button></tr>
+						return <tr className="searchresult"><button key={id} onClick={() => handleRuleAdd(result)}>{result.title}</button><button className="editbtn" onClick={()=>setToEdit(result)}><FaGear/></button><button className="editbtn" onClick={()=>handleDelete(result)}><FaTrash/></button></tr>
 					})}
 				</tbody>
 			</table>
 			{ newitemform ? 
-				<NewItemForm setVis = {setNewitemform} getResults = {FetchAllResults}/>
+				<NewItemForm setVis = {setNewitemform} getResults = {FetchAllResults} toEdit = {toedit || {}}/>
 			: null}
 		</div>
 	)

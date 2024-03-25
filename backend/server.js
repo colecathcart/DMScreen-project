@@ -153,6 +153,92 @@ app.post("/newcard", (request, response)=>{
 	}
 })
 
+app.put("/updatecard", (request, response) => {
+	const token = request.cookies.token
+	try {
+		const username = jwt.verify(token, SECRET)
+		console.log(request.body)
+		
+		DMCard.findById(request.body._id)
+			.then((res)=>{
+				console.log(res)
+				res.title = request.body.title
+				res.description = request.body.desc
+				res.save()
+					.then((result)=>{
+						response.send(result)
+					})
+					.catch((err) => {
+						console.error(err)
+					})
+			})
+			.catch((err)=>{
+				console.error(err)
+			})
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+app.put("/updatetable", (request, response) => {
+	const token = request.cookies.token
+	try {
+		const username = jwt.verify(token, SECRET)
+		console.log(request.body)
+		
+		DMTable.findById(request.body._id)
+			.then((res)=>{
+				console.log(res)
+				res.title = request.body.title
+				res.roll = request.body.roll
+				res.headers = request.body.headers
+				res.rows = request.body.rows
+				res.save()
+					.then((result)=>{
+						response.send(result)
+					})
+					.catch((err) => {
+						console.error(err)
+					})
+			})
+			.catch((err)=>{
+				console.error(err)
+			})
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+app.delete("/deletecard", (request, response) => {
+	const token = request.cookies.token
+	try {
+		DMCard.deleteOne({_id: request.headers._id})
+			.then((res)=>{
+				response.send(res)
+			})
+			.catch((err)=>{
+				console.error(err)
+			})
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+app.delete("/deletetable", (request, response) => {
+	const token = request.cookies.token
+	try {
+		DMTable.deleteOne({_id: request.headers._id})
+			.then((res)=>{
+				response.send(res)
+			})
+			.catch((err)=>{
+				console.error(err)
+			})
+	} catch (err) {
+		console.error(err)
+	}
+})
+
 app.get("/gettables", (request, response) => {
 	const token = request.cookies.token
 	try {

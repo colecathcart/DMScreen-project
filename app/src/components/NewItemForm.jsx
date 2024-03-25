@@ -3,23 +3,24 @@ import axios from 'axios'
 
 const API_URL = "http://localhost:4000/"
 
-const NewItemForm = ({setVis, getResults}) => {
+const NewItemForm = ({setVis, getResults, toEdit}) => {
 
-	const [showcard, setShowcard] = useState(true)
+	const [showcard, setShowcard] = useState(!toEdit.headers)
 	const [error, setError] = useState("")
-	const [maxrows, setMaxrows] = useState(30)
+	const [maxrows, setMaxrows] = useState(toEdit && toEdit.roll === "TRUE" ? parseInt(toEdit.headers[0].substring(1)) : 30)
 	const [tooltip, setTooltip] = useState(false)
-	const [autofill, setAutofill] = useState(false)
+	const [autofill, setAutofill] = useState(toEdit && toEdit.roll === "TRUE")
 	const [dmtable, setDmtable]  = useState({
-		title: "",
-		roll: "FALSE",
-		headers: [""],
-		rows: [[""]]
+		title: toEdit.title || "",
+		roll: toEdit.roll || "FALSE",
+		headers: toEdit.headers || [""],
+		rows: toEdit.rows || [[""]]
 	})
 	const [card, setCard] = useState({
-		name: "",
-		desc: ""
+		name: toEdit.title || "",
+		desc: toEdit.description || ""
 	})
+	const id = toEdit._id || ""
 
 	useEffect(()=>{
 		if(dmtable.roll === "TRUE"){
@@ -30,12 +31,6 @@ const NewItemForm = ({setVis, getResults}) => {
 
 	useEffect(()=>{
 		setError("")
-		setDmtable({
-			title: "",
-			roll: "FALSE",
-			headers: [""],
-			rows: [[""]]
-		})
 	},[showcard])
 
 	const addNewcolumn = (e) =>{
@@ -164,16 +159,29 @@ const NewItemForm = ({setVis, getResults}) => {
 			setError("Fields cannot be blank!")
 		} else {
 			setError("")
-			const newcard = {
-				title: cardname,
-				desc: carddesc
-			}
 			try {
-				await axios( API_URL + "newcard", {
-					method: "post",
-					withCredentials: true,
-					data: newcard
-				})
+				if(toEdit.title) {
+					const newcard = {
+						_id: id,
+						title: cardname,
+						desc: carddesc
+					}
+					await axios( API_URL + "updatecard", {
+						method: "put",
+						withCredentials: true,
+						data: newcard
+					})
+				} else {
+					const newcard = {
+						title: cardname,
+						desc: carddesc
+					}
+					await axios( API_URL + "newcard", {
+						method: "post",
+						withCredentials: true,
+						data: newcard
+					})
+				}
 			} catch (err){
 				console.log(err)
 			}
@@ -271,11 +279,20 @@ const NewItemForm = ({setVis, getResults}) => {
 		setError("")
 		console.log(dmt)
 		try {
-			await axios( API_URL + "newtable", {
-				method: "post",
-				withCredentials: true,
-				data: dmt
-			})
+			if(toEdit.title){
+				let newtable = {...dmt, _id: id}
+				await axios( API_URL + "updatetable", {
+					method: "put",
+					withCredentials: true,
+					data: newtable
+				})
+			} else {
+				await axios( API_URL + "newtable", {
+					method: "post",
+					withCredentials: true,
+					data: dmt
+				})
+			}
 		} catch (err){
 			console.log(err)
 		}
@@ -285,12 +302,13 @@ const NewItemForm = ({setVis, getResults}) => {
 
 	return (
 		<div className="newitemform">
+			{console.log(dmtable)}
 			<form>
 				<label>Card
-					<input type="radio" name="showcard" defaultChecked onClick={()=>setShowcard(true)}></input>
+					<input type="radio" name="showcard" defaultChecked={showcard} disabled={toEdit.title} onClick={()=>setShowcard(true)}></input>
 				</label>
 				<label>Table
-					<input type="radio" name="showcard" onClick={()=>setShowcard(false)}></input>
+					<input type="radio" name="showcard" defaultChecked={!showcard} disabled={toEdit.title} onClick={()=>setShowcard(false)}></input>
 				</label>
 			</form>
 			{showcard ? 
@@ -332,7 +350,7 @@ const NewItemForm = ({setVis, getResults}) => {
 								they must be inputted as 'n-m'. Duplicate numbers and numbers outside the die's range 
 								are not allowed in this column.</span> : null
 						}
-						<input type="checkbox" value={autofill} onChange={(e)=>setAutofill(e.target.value)}></input>
+						<input type="checkbox" value={autofill} defaultChecked={autofill} disabled={dmtable.roll !== 'TRUE'} onChange={(e)=>setAutofill(e.target.value)}></input>
 						<label className="checklabel">auto-fill roll column</label>
 					</div>
 					<div className="coldiv">

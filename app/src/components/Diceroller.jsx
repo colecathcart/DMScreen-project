@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 
-const Diceroller = () => {
+const Diceroller = ({display}) => {
 
 	const [die, setDie] = useState(4)
 	const [mod, setMod] = useState(0)
@@ -40,7 +40,8 @@ const Diceroller = () => {
 	}
 
 	return(
-		<div className="diceroller">
+		
+		<div className="diceroller" style={display ? {display: "flex"} : {display: "none"}}>
 			<div className="dicebox">
 				{rolls.map((roll, id)=>{
 					return <div className={"d" + die.toString()} style={rolling ? {animation: "rotation .2s linear"} : {}} onAnimationEnd={()=>setRolling(false)}>{roll}</div>

@@ -33,6 +33,12 @@ const Screen = () => {
 
 	const navigate = useNavigate()
 
+	useEffect(()=>{
+		if(!tabs.includes(pagetab)) {
+			setPageTab(tabs[0])
+		}
+	},[tabs])
+
 	const handleLogout = async e =>{
 		e.preventDefault()
 		axios.get(API_URL + "logout", {withCredentials: true})
@@ -174,7 +180,7 @@ const Screen = () => {
 					</div>
 					{tabs.map((tab, id) => {
 						return tab.id === -1 ? 
-							<Diceroller style={tab.name === pagetab.name ? {display: 'flex'} : {display: 'none'}}/>
+							<Diceroller display={tab.name === pagetab.name ? true : false}/>
 						: 
 							<iframe src={tab.url} title={tab.name} style={tab.name === pagetab.name ? {display: 'block'} : {display: 'none'}}></iframe>
 					})}
