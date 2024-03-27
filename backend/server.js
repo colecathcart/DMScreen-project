@@ -4,6 +4,7 @@ const axios = require('axios')
 const cors = require('cors')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const path = require('path')
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const DMTable = require('./dbmodels/dmtable')
@@ -18,6 +19,13 @@ const CLIENT_URL = 'http://localhost:3000'
 app.use(express.json())
 app.use(cors({origin: CLIENT_URL, credentials: true}))
 app.use(cookieParser())
+
+if(process.env.NODE_ENV === 'production') {
+	app.use(express.static('../app/build'))
+	app.get('*',(req,res) => {
+
+	})
+}
 
 async function connect() {
 	try {

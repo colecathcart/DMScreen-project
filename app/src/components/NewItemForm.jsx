@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react"
 import axios from 'axios'
 
-const API_URL = "http://localhost:4000/"
+const API_URL = process.env.REACT_APP_API_URL
 
-const NewItemForm = ({setVis, getResults, toEdit}) => {
+const NewItemForm = ({setVis, getResults, toEdit, right, setuserData}) => {
 
 	const [showcard, setShowcard] = useState(!toEdit.headers)
 	const [error, setError] = useState("")
@@ -32,6 +32,10 @@ const NewItemForm = ({setVis, getResults, toEdit}) => {
 	useEffect(()=>{
 		setError("")
 	},[showcard])
+
+	useEffect(()=>{
+		fillRollColumn(parseInt(dmtable.headers[0].substring(1)))
+	}, [autofill])
 
 	const addNewcolumn = (e) =>{
 		e.preventDefault()
@@ -185,7 +189,8 @@ const NewItemForm = ({setVis, getResults, toEdit}) => {
 			} catch (err){
 				console.log(err)
 			}
-			getResults()	
+			getResults()
+			setuserData()
 			setVis(false)
 		}
 	}
@@ -297,12 +302,12 @@ const NewItemForm = ({setVis, getResults, toEdit}) => {
 			console.log(err)
 		}
 		getResults()
+		setuserData()
 		setVis(false)
 	}
 
 	return (
-		<div className="newitemform">
-			{console.log(dmtable)}
+		<div className="newitemform" id={right ? "newitemformright" : null}>
 			<form>
 				<label>Card
 					<input type="radio" name="showcard" defaultChecked={showcard} disabled={toEdit.title} onClick={()=>setShowcard(true)}></input>
@@ -350,7 +355,7 @@ const NewItemForm = ({setVis, getResults, toEdit}) => {
 								they must be inputted as 'n-m'. Duplicate numbers and numbers outside the die's range 
 								are not allowed in this column.</span> : null
 						}
-						<input type="checkbox" value={autofill} defaultChecked={autofill} disabled={dmtable.roll !== 'TRUE'} onChange={(e)=>setAutofill(e.target.value)}></input>
+						<input type="checkbox" value={autofill} defaultChecked={autofill} disabled={dmtable.roll !== 'TRUE'} onChange={()=>setAutofill(autofill => !autofill)}></input>
 						<label className="checklabel">auto-fill roll column</label>
 					</div>
 					<div className="coldiv">

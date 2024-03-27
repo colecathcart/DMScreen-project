@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 
-const DMTable = ({tableData: {rule,key}}) => {
+const DMTable = ({tableData: {rule, thekey}, handleRemove}) => {
 
 	const [vis, setVis] = useState(true)
 	const [rolling, setRolling] = useState(false)
@@ -8,6 +8,7 @@ const DMTable = ({tableData: {rule,key}}) => {
 	console.log(rule)
 	const removeMe = () => {
 		setVis((prev) => !prev)
+		handleRemove(thekey)
 	}
 
 	function isRoll(roll){

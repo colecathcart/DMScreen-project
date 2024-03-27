@@ -4,7 +4,7 @@ import { FaDiceD20 } from "react-icons/fa"
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const API_URL = "http://localhost:4000/"
+const API_URL = process.env.REACT_APP_API_URL
 
 const Login = () => {
 

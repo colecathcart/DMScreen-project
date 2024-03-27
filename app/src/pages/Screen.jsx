@@ -12,7 +12,7 @@ import Searchbar from "../components/Searchbar"
 import {FaCaretLeft, FaCaretRight} from "react-icons/fa6";
 import { FaDiceD20 } from "react-icons/fa";
 
-const API_URL = "http://localhost:4000/"
+const API_URL = process.env.REACT_APP_API_URL
 
 const Screen = () => {
 
@@ -27,6 +27,11 @@ const Screen = () => {
 	const [pagetab, setPageTab] = useState(tabs[0])
 	const [newtabscreen, setNewTabScreen] = useState(false)
 	const [errmsg, setErrMsg] = useState(false)
+	const [idcount, setIdcount] = useState(1)
+	const [exleft, setExleft] = useState(false)
+	const [exright, setExright] = useState(false)
+	const [searchid1, setSearchid1] = useState(0)
+	const [searchid2, setSearchid2] = useState(0)
 
 	let newtabname = ""
 	let newtaburl = ""
@@ -38,6 +43,14 @@ const Screen = () => {
 			setPageTab(tabs[0])
 		}
 	},[tabs])
+
+	const setuserData1 = () => {
+		setSearchid1(Math.random())
+	}
+
+	const setuserData2 = () => {
+		setSearchid2(Math.random())
+	}
 
 	const handleLogout = async e =>{
 		e.preventDefault()
@@ -85,17 +98,11 @@ const Screen = () => {
 	}
 
 	const removeTab = (deltab) => {
-		if(pagetab.name === deltab.name){
-			console.log("here")
-			console.log(tabs[0])
+		if(pagetab.id === deltab.id){
 			pagetabSetter(tabs[0])
-			console.log("tabs:", tabs)
-			console.log(tabs[0])
-			console.log("name:",pagetab)
 		}
-		console.log(deltab)
-		let newtabs = tabs
-		let filteredtabs = newtabs.filter(tab => tab.name !== deltab.name)
+		let newtabs = [...tabs]
+		let filteredtabs = newtabs.filter(tab => tab.id !== deltab.id)
 		setTabs(filteredtabs)
 	}
 
@@ -108,23 +115,19 @@ const Screen = () => {
 	}
 
 	const handleAddTab = () => {
-		if(tabs.findIndex((tab) => tab.name === newtabname) !== -1){
-			newtabname = ""
-			setErrMsg(true)
-		} else {
-			const newtab = {name: newtabname, url: newtaburl}
-			setTabs(tabs => [...tabs, newtab])
-			setPageTab(newtab)
-			setErrMsg(false)
-			setNewTabScreen(false)
-			newtabname = ""
-			newtaburl = ""
-		}
+		const newtab = {name: newtabname, url: newtaburl, id: idcount}
+		setIdcount(idcount + 1)
+		setTabs(tabs => [...tabs, newtab])
+		setPageTab(newtab)
+		setErrMsg(false)
+		setNewTabScreen(false)
+		newtabname = ""
+		newtaburl = ""
 	}
 
 	const componentMatcher = (rule, remover, id) => {
 		if(rule.rule.title){
-			return rule.rule.headers ? <DMTable tableData={rule}/> : <DMCard data={rule} handleRemove={remover} index={id}/>
+			return rule.rule.headers ? <DMTable tableData={rule} handleRemove={remover}/> : <DMCard data={rule} handleRemove={remover} index={id}/>
 		}else if(rule.rule.url.match("/api/spells")){
 			return <DMSpell data={rule} handleRemove={remover} index={id}/>
 		} else if(rule.rule.url.match("/api/equipment") || rule.rule.url.match("/api/magic-items")){
@@ -147,26 +150,27 @@ const Screen = () => {
 			</div>
 			<div className="mainArea">
 				{show1 ? 
-					<div className={show2 ? "tableArea" : "bigtableArea"}>
-						<Searchbar settheRules={ruleaddLeft}/>
+					<div className={exleft ? "bigtableArea" : "tableArea"}>
+						<Searchbar settheRules={ruleaddLeft} right={false} setuserData={setuserData2} key={searchid1}/>
 						{rulesleft.map((rule, id) => {
 							return componentMatcher(rule, handleRemoveleft, id)
 						})}
 					</div>
 				: null}
 				<div className="collapser">
-					<button onClick={() => setShow1(show1 => !show1)}>{show1 ? <FaCaretLeft/> : <FaCaretRight/>}</button>
+					<button style={!show2 && exleft ? {display: "none"} : null} onClick={() => setShow1(show1 => !show1)}>{show1 ? <FaCaretLeft/> : <FaCaretRight/>}</button>
+					<button disabled={show2} style={show1 && !show2 ? null : {display: "none"}} onClick={()=>setExleft(exleft => !exleft)}>{ exleft ? <FaCaretLeft/> : <FaCaretRight/>}</button>
 				</div>
 				<div className="iframediv">
 					<div className="tabbar">
 						{tabs.map((tab, id) => {
 							console.log(tab)
-							return <button className={tab.name === pagetab.name ? "currenttab" : "tab"} onClick={() => pagetabSetter(tab)}><p className="tabtext">{tab.name}</p>{tab.id === -1 ? null : <button className="tabbutton" onClick={() => removeTab(tab)}>x</button>}</button>
+							return <button className={tab.id === pagetab.id ? "currenttab" : "tab"} onClick={() => pagetabSetter(tab)}><p className="tabtext">{tab.name}</p>{tab.id === -1 ? null : <button className="tabbutton" onClick={() => removeTab(tab)}>x</button>}</button>
 						})}
 						<div>
 							{newtabscreen ? 
 								<div className="newtabwindow">
-									<input placeholder="tab name (must be unique)" onChange={e => {newtabname = e.target.value}}></input>
+									<input placeholder="tab name" onChange={e => {newtabname = e.target.value}}></input>
 									{errmsg ? <i style={{color: 'red'}}>name must be unique</i> : null}
 									<input placeholder="url" onChange={e => {newtaburl = e.target.value}}></input>
 									<div>
@@ -187,11 +191,12 @@ const Screen = () => {
 					
 				</div>
 				<div className="collapser">
-					<button className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <FaCaretRight/> : <FaCaretLeft/>}</button>
+					<button disabled={show1} style={show2 && !show1 ? null : {display: "none"}} onClick={()=>setExright(exright => !exright)}>{ exright ? <FaCaretRight/> : <FaCaretLeft/>}</button>
+					<button style={!show1 && exright ? {display: "none"} : null} className="collapsebtnright" onClick={() => setShow2(show2 => !show2)}>{show2 ? <FaCaretRight/> : <FaCaretLeft/>}</button>
 				</div>
 				{show2 ? 
-					<div className={show1 ? "tableArea" : "bigtableArea"}>
-						<Searchbar settheRules={ruleaddRight}/>
+					<div className={exright ? "bigtableArea" : "tableArea"}>
+						<Searchbar settheRules={ruleaddRight} right={true} setuserData={setuserData1} key={searchid2}/>
 						{rulesright.map((rule, id) => {
 							return componentMatcher(rule, handleRemoveright, id)
 						})}
