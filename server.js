@@ -13,7 +13,7 @@ const User = require('./dbmodels/user')
 const uri = process.env.MONGODB_URI
 const app = express();
 const port = process.env.PORT || 4000
-const SECRET = 'replacethiswitharealsecret'
+const SECRET = process.env.JWTSECRET
 const clienturl = process.env.CLIENT_URL
 
 app.use(express.json())
