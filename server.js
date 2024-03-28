@@ -21,7 +21,7 @@ app.use(cors({origin: CLIENT_URL, credentials: true}))
 app.use(cookieParser())
 
 if(process.env.NODE_ENV === 'production') {
-	app.use(express.static('../app/build'))
+	app.use(express.static('app/build'))
 	app.get('*',(req,res) => {
 		res.sendFile(path.resolve(__dirname, 'app', 'build', 'index.html'))
 	})
