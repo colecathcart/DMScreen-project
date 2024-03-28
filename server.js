@@ -14,10 +14,10 @@ const uri = process.env.MONGODB_URI
 const app = express();
 const port = process.env.PORT || 4000
 const SECRET = 'replacethiswitharealsecret'
-const CLIENT_URL = 'http://localhost:3000'
+const clienturl = process.env.CLIENT_URL
 
 app.use(express.json())
-app.use(cors({origin: CLIENT_URL, credentials: true}))
+app.use(cors({origin: [clienturl, "http://localhost:3000"], credentials: true}))
 app.use(cookieParser())
 
 if(process.env.NODE_ENV === 'production') {
