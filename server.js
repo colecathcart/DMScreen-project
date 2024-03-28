@@ -10,7 +10,7 @@ const mongoose = require('mongoose')
 const DMTable = require('./dbmodels/dmtable')
 const DMCard = require('./dbmodels/dmcard')
 const User = require('./dbmodels/user')
-const uri = "mongodb+srv://colecathcart:W0fC4N4ig3x41CvI@cluster0.veinmfc.mongodb.net/DMScreen?retryWrites=true&w=majority"
+const uri = process.env.MONGODB_URI
 const app = express();
 const port = process.env.PORT || 4000
 const SECRET = 'replacethiswitharealsecret'
