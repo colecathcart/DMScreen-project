@@ -17,15 +17,8 @@ const SECRET = 'replacethiswitharealsecret'
 const clienturl = process.env.CLIENT_URL
 
 app.use(express.json())
-app.use(cors({origin: [clienturl, "http://localhost:3000"], credentials: true}))
+app.use(cors({origin: true, credentials: true}))
 app.use(cookieParser())
-
-if(process.env.NODE_ENV === 'production') {
-	app.use(express.static('app/build'))
-	app.get('*',(req,res) => {
-		res.sendFile(path.resolve(__dirname, 'app', 'build', 'index.html'))
-	})
-}
 
 async function connect() {
 	try {
@@ -311,3 +304,10 @@ app.get("/search",(request, response)=>{
 		console.error(error)
 	})
 })
+
+if(process.env.NODE_ENV === 'production') {
+	app.use(express.static('app/build'))
+	app.get('*',(req,res) => {
+		res.sendFile(path.resolve(__dirname, 'app', 'build', 'index.html'))
+	})
+}
