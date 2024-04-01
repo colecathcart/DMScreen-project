@@ -23,7 +23,7 @@ const Screen = () => {
 	const [rulesright, setRulesright] = useState([])
 	const [tabs, setTabs] = useState([
 		{name : "dice roller", url : "test.html", id : -1},
-		{name : "improved-initiative", url : "https://improvedinitiative.app", id : 0}])
+		])
 	const [pagetab, setPageTab] = useState(tabs[0])
 	const [newtabscreen, setNewTabScreen] = useState(false)
 	const [errmsg, setErrMsg] = useState(false)
